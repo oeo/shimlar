@@ -97,8 +97,8 @@ current focus: loot generation - weighted drop tables and smart loot system
   - [ ] weighted drop tables by monster type
   - [ ] rarity roll system
   - [ ] affix selection from pools
-  - [ ] smart loot (level-appropriate affixes)
-  - [ ] loot filter system (basic)
+  - [ ] rarity affixes on gear may affect quality of items dropped
+  - [ ] quantity affixes on gear may affect number of items dropped
   - [ ] unit tests for drop rates
 - [ ] inventory management
   - [ ] grid-based inventory
@@ -130,13 +130,11 @@ current focus: loot generation - weighted drop tables and smart loot system
   - [ ] monster base types and variants
   - [ ] monster rarity (normal/magic/rare/unique)
   - [ ] monster modifiers system
-  - [ ] pack mechanics (leader/minions)
   - [ ] unit tests for monster stats
 - [ ] ai behaviors
   - [ ] movement patterns (direct/flanking/kiting)
   - [ ] ability usage conditions
   - [ ] aggro/threat system
-  - [ ] pack coordination
   - [ ] unit tests for ai decisions
 - [ ] boss mechanics
   - [ ] multi-phase bosses
@@ -164,13 +162,11 @@ current focus: loot generation - weighted drop tables and smart loot system
 
 ## phase 6: crafting & currency
 - [ ] currency system
-  - [ ] basic orbs (transmute/alteration/alchemy/chaos)
+  - [ ] basic orbs (transmute/alteration/alchemy/chaos/scouring/regal/exalt/augment)
   - [ ] currency effects on items
   - [ ] deterministic crafting outcomes (initially)
   - [ ] unit tests for crafting results
 - [ ] crafting bench
-  - [ ] recipe system
-  - [ ] unveiled mods (simplified)
   - [ ] metamod crafting (basic)
   - [ ] unit tests for bench crafts
 - [ ] essence system
@@ -382,7 +378,14 @@ the `item-affixes.json` file contains:
 - lvl 73: "tyrannical" (155-169% increased)
 - lvl 83: "merciless" (170-179% increased)
 
-### @shimlar/server (future)
+## future features
+
+### loot filters
+- item filtering system (basic)
+- customizable filter rules
+- visual/audio alerts for valuable items
+
+### @shimlar/server (multiplayer)
 - websocket server
 - multiplayer state sync
 - persistence layer

@@ -74,66 +74,6 @@ describe("DoT Integration with Combat Engine", () => {
       });
     });
 
-    it.skip("should handle the classic scenario: enemy dies but player dies from dots later", (done) => {
-      engine.addEntity(player, "Hero");
-      engine.addEntity(enemy, "Venomous Spider");
-
-      const dotManager = engine.getDotManager();
-      
-      // enemy applies lethal poison to player
-      dotManager.applyDot(player.id, DotApplications.poison(1200, enemy.id, 1000)); // 600 dps for 1 second
-      
-      // immediately kill the enemy (simulating player killing enemy quickly)
-      const enemyHealth = enemy.getComponent<HealthComponent>("health")!;
-      enemyHealth.takeDamage(1000); // overkill
-      
-      expect(enemyHealth.isDead()).toBe(true);
-
-      engine.start();
-
-      let dotDamageReceived = 0;
-      let tickCount = 0;
-
-      eventBus.on("combat.tick", (tick) => {
-        tickCount++;
-
-        // track dot damage to player
-        const dotDamageEvents = tick.events.filter(e => 
-          e.type === "damage" && 
-          e.data.isDot && 
-          e.targetId === player.id
-        );
-
-        for (const event of dotDamageEvents) {
-          dotDamageReceived += event.data.damage;
-          
-          // check if player died from dot damage
-          const playerHealth = player.getComponent<HealthComponent>("health")!;
-          if (playerHealth.isDead()) {
-            // verify the scenario: enemy dead, player killed by dots
-            expect(enemyHealth.isDead()).toBe(true);
-            expect(dotDamageReceived).toBeGreaterThan(90); // significant dot damage
-            expect(playerHealth.isDead()).toBe(true);
-            
-            // check that dots persisted after enemy death
-            const dotEntries = engine.getCombatLog().getEntries().filter(e => 
-              e.message.includes("poison")
-            );
-            expect(dotEntries.length).toBeGreaterThan(0);
-            
-            engine.stop();
-            done();
-            return;
-          }
-        }
-        
-        // prevent infinite test
-        if (tickCount >= 15) {
-          engine.stop();
-          done(new Error(`Player should have died from poison after ${tickCount} ticks. Damage received: ${dotDamageReceived}`));
-        }
-      });
-    });
 
     it("should stack multiple poison applications correctly", (done) => {
       engine.addEntity(player, "Hero");

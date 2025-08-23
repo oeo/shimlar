@@ -106,9 +106,9 @@ bun run dist/index.js
 - **item generation:** level-gated affixes with path of exile accurate rarity distribution
 
 ### crafting system (future)
-- currency-based modifications
+- currency orbs: transmute, alteration, alchemy, chaos, scouring, regal, exalt, augment
+- currency effects on items
 - deterministic outcomes for testing
-- recipes in `src/data/recipes.json`
 
 ## File naming conventions
 - components: PascalCase.tsx
