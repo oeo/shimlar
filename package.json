@@ -1,0 +1,17 @@
+{
+  "name": "shimlar",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "bun run --cwd packages/cli dev",
+    "test": "bun test",
+    "clean": "rm -rf packages/*/node_modules"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5.9.2"
+  }
+}

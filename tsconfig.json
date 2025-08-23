@@ -1,0 +1,47 @@
+{
+  "compilerOptions": {
+    // Environment setup & latest features
+    "lib": ["ESNext"],
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleDetection": "force",
+    "jsx": "react",
+    "jsxFactory": "React.createElement",
+    "jsxFragmentFactory": "React.Fragment",
+    "allowJs": true,
+
+    // Bundler mode
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "noEmit": true,
+
+    // Best practices
+    "strict": true,
+    "skipLibCheck": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+
+    // Some stricter flags
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noPropertyAccessFromIndexSignature": false,
+
+    // Path mappings for workspace packages
+    "paths": {
+      "@shimlar/core": ["./packages/core/src/index.ts"],
+      "@shimlar/core/*": ["./packages/core/src/*"],
+      "@shimlar/engine": ["./packages/engine/src/index.ts"],
+      "@shimlar/engine/*": ["./packages/engine/src/*"],
+      "@shimlar/cli": ["./packages/cli/src/index.tsx"],
+      "@shimlar/cli/*": ["./packages/cli/src/*"],
+      "@shimlar/data": ["./packages/data/src/index.ts"],
+      "@shimlar/data/*": ["./packages/data/src/*"],
+      "@shimlar/server": ["./packages/server/src/index.ts"],
+      "@shimlar/server/*": ["./packages/server/src/*"]
+    },
+    "baseUrl": "."
+  },
+  "include": ["packages/*/src/**/*"],
+  "exclude": ["node_modules", "dist", "packages/*/node_modules"]
+}
