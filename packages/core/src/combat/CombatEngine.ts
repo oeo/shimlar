@@ -11,8 +11,8 @@ import { CombatAction, CombatTick, CombatEvent, DamageType, DamageAmount } from 
 import { calculateAttackResult, createDefaultCombatStats } from "./formulas";
 import { CombatLog, CombatLogOptions } from "./CombatLog";
 import { DotManager, DotType } from "./DamageOverTime";
-import { SimpleLootGenerator, LootDrop } from "../items/SimpleLootGeneration";
-import { SimpleMonster } from "@shimlar/data/src/monsters/archetypes";
+import { LootGenerator, LootDrop } from "../items/LootGeneration";
+import { Monster } from "@shimlar/data/src/monsters/archetypes";
 
 export interface CombatEngineOptions {
   tickRate: number; // milliseconds per tick
@@ -32,7 +32,7 @@ export class CombatEngine {
   private dotManager: DotManager;
   
   // loot generation support
-  private monsters: Map<string, SimpleMonster> = new Map();
+  private monsters: Map<string, Monster> = new Map();
   private generatedLoot: Map<string, LootDrop[]> = new Map();
   
   private readonly tickRate: number;
@@ -48,7 +48,7 @@ export class CombatEngine {
   /**
    * add entity to combat
    */
-  addEntity(entity: Entity, name?: string, monster?: SimpleMonster): void {
+  addEntity(entity: Entity, name?: string, monster?: Monster): void {
     this.entities.set(entity.id, entity);
     
     // register monster for loot generation
@@ -428,9 +428,9 @@ export class CombatEngine {
   /**
    * generate loot for a dead monster
    */
-  private async generateLootForMonster(entityId: string, monster: SimpleMonster): Promise<void> {
+  private async generateLootForMonster(entityId: string, monster: Monster): Promise<void> {
     // generate loot drops using simplified system
-    const loot = await SimpleLootGenerator.generateLoot(monster);
+    const loot = await LootGenerator.generateLoot(monster);
     
     // store loot for later retrieval
     this.generatedLoot.set(entityId, loot);

@@ -387,6 +387,44 @@ console.log(`${prefix?.displayName} - ${prefix?.displayText}`);
 // "Heavy - 45% increased Physical Damage"
 ```
 
+### monster & loot system
+
+```typescript
+import { 
+  LootGenerator,
+  createPhysicalMonster, 
+  createCasterMonster,
+  getMonster,
+  getZoneMonsters 
+} from "@shimlar/core";
+import { MonsterRarity, MonsterSubtype } from "@shimlar/data";
+
+// create monsters using factory functions
+const zombie = createPhysicalMonster("zombie_1", "Rotting Zombie", MonsterSubtype.Zombie, 3);
+const shaman = createCasterMonster("shaman_1", "Goatman Shaman", MonsterSubtype.Goatman, 8, MonsterRarity.Magic);
+
+// get pre-defined monsters from registry
+const boss = getMonster("merveil"); // unique boss monster
+const coastMonsters = getZoneMonsters("the_coast"); // all monsters for a zone
+
+// generate loot for any monster
+const loot = await LootGenerator.generateLoot(zombie);
+
+// process loot drops
+for (const drop of loot) {
+  if (drop.type === "currency") {
+    console.log(`Currency: ${drop.quantity}x ${drop.itemId}`);
+  } else if (drop.type === "equipment") {
+    console.log(`Equipment: ${drop.item.name} (${drop.item.rarity})`);
+  }
+}
+
+// loot examples:
+// Currency: 2x scroll_of_wisdom
+// Equipment: Rusted Sword (magic)
+// Currency: 1x orb_of_transmutation
+```
+
 ## performance considerations
 
 ### tick rate

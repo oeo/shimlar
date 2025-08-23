@@ -104,6 +104,7 @@ bun run dist/index.js
 - **rarity tiers:** normal (no affixes), magic (1-2), rare (4-6), unique (future)
 - **equipment system:** 15 equipment slots with dual-wield support and stat aggregation
 - **item generation:** level-gated affixes with path of exile accurate rarity distribution
+- **loot generation:** `LootGenerator` class with monster archetype system and cross-act registry
 
 ### crafting system (future)
 - currency orbs: transmute, alteration, alchemy, chaos, scouring, regal, exalt, augment

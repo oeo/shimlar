@@ -110,16 +110,22 @@ describe("Equipment System", () => {
     it("should calculate stats from implicit mods", async () => {
       const equipment = new EquipmentManager();
       
-      const ring = await generateItemFromBase(getBaseItemTypeByName("Iron Ring")!, 10);
-      const amulet = await generateItemFromBase(getBaseItemTypeByName("Coral Amulet")!, 10);
+      const ring = await generateItemFromBase(getBaseItemTypeByName("Iron Ring")!, 1); // level 1 to avoid affixes
+      const amulet = await generateItemFromBase(getBaseItemTypeByName("Coral Amulet")!, 1);
+      
+      // force items to be normal (no affixes)
+      ring.rarity = ItemRarity.Normal;
+      ring.affixes = [];
+      amulet.rarity = ItemRarity.Normal; 
+      amulet.affixes = [];
       
       equipment.equipItem(ring, ItemSlot.RingLeft);
       equipment.equipItem(amulet, ItemSlot.Amulet);
       
       const stats = equipment.calculateStats();
       
-      // iron ring: +1 to maximum life
-      // coral amulet: +20 to maximum life
+      // iron ring: +1 to maximum life (implicit)
+      // coral amulet: +20 to maximum life (implicit)
       expect(stats.maxLife).toBe(21);
     });
 

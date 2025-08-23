@@ -57,10 +57,11 @@ core/src/
 │   ├── DamageOverTime.ts // poison/ignite/bleed system
 │   └── CombatLog.ts      // detailed combat logging
 ├── items/
-│   ├── BaseItemTypes.ts  // weapon/armor/accessory definitions
-│   ├── AffixSystem.ts    // prefix/suffix generation
-│   ├── ItemGeneration.ts // complete item creation
-│   └── Equipment.ts      // equipment slots and stat calculation
+│   ├── BaseItemTypes.ts     // weapon/armor/accessory definitions
+│   ├── AffixSystem.ts       // prefix/suffix generation
+│   ├── ItemGeneration.ts    // complete item creation
+│   ├── Equipment.ts         // equipment slots and stat calculation
+│   └── LootGeneration.ts       // monster loot generation system
 ├── character/
 │   ├── CharacterClass.ts // 7 character classes with stat distributions  
 │   └── Character.ts      // character creation and management
@@ -155,14 +156,15 @@ cli/src/
 **purpose**: static game data in json format
 
 ```
-data/
+data/src/
 ├── items/
 │   ├── affixes.json     // complete 11k+ line affix database
 │   ├── bases.json       // base item types (future)
 │   └── uniques.json     // unique items (future)
 ├── monsters/
-│   ├── normal.json      // regular enemies
-│   └── bosses.json      // boss enemies
+│   ├── types.ts         // monster rarity definitions
+│   ├── archetypes.ts    // monster behavioral archetypes and factory functions
+│   └── monsters.ts         // cross-act monster registry and zone spawn tables
 ├── skills/
 │   └── skills.json      // skill definitions
 └── zones/
@@ -285,6 +287,33 @@ following path of exile mechanics:
 - **magic**: 20% chance, 1-2 affixes  
 - **rare**: 1.9% chance, 4-6 affixes
 - **unique**: 0.1% chance, fixed modifiers
+
+## monster & loot system architecture
+
+### monster archetype system
+
+simplified behavioral classification system:
+- **physical**: melee fighters, standard loot tables
+- **caster**: spellcasters, slight boost to currency drops  
+- **ranged**: archers, standard loot tables
+- **mixed**: balanced monsters, standard loot tables
+
+### monster registry system
+
+cross-act monster definitions using factory functions:
+- **define once, use everywhere** approach
+- **level-scaled monsters** avoid per-act redefinition
+- **zone spawn tables** for easy monster-to-area mapping
+- **archetype + subtype** classification (e.g., Physical Zombie, Caster Goatman)
+
+### loot generation system
+
+level and rarity-based loot generation:
+- **drop quantity scaling**: normal (0-2), magic (1-3), rare (2-5), unique (3-7) items
+- **currency scaling**: exponential weighting by monster level (chaos orbs rare at level 2, common at level 50)
+- **equipment generation**: uses existing item generation system with monster level as item level
+- **no smart loot**: completely unbiased drops, no player class favoritism
+- **async integration**: seamlessly integrated with combat engine for death events
 
 ## for future developers
 

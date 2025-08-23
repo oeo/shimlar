@@ -19,6 +19,10 @@ bun test
 
 # run item system tests specifically
 bun run test:items
+
+# run loot validation tests (path of exile accuracy)
+bun test packages/core/tests/items/LootValidation.test.ts
+bun test packages/core/tests/items/PoEAccuracy.test.ts
 ```
 
 ## item system scripts
@@ -45,6 +49,15 @@ tests the item generation system with thousands of items:
 - prefix/suffix naming conventions
 - equipment integration and stat calculation
 - item level requirements for affix tiers
+
+## loot system
+
+comprehensive monster and loot generation system:
+- **monster archetypes**: physical/caster/ranged/mixed behavioral types
+- **cross-act registry**: define monsters once, use everywhere
+- **level scaling**: currency drops scale exponentially with monster level  
+- **path of exile accuracy**: chaos orbs 0.0-0.2% drop rate, proper rarity distribution
+- **comprehensive testing**: 24+ tests validating poe mechanics across 3 test files
 
 ## project structure
 

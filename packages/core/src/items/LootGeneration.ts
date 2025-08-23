@@ -1,7 +1,6 @@
 import { ItemRarity, generateItemFromBase } from "./ItemGeneration";
 import { BaseItemType, getBaseItemTypeByName, ALL_BASE_ITEM_TYPES } from "./BaseItemTypes";
-import { MonsterRarity } from "@shimlar/data/src/monsters/types";
-import { MonsterArchetype, SimpleMonster, archetypeLootModifiers } from "@shimlar/data/src/monsters/archetypes";
+import { MonsterRarity, MonsterArchetype, Monster, archetypeLootModifiers } from "@shimlar/data/src/monsters";
 
 export interface LootDrop {
   type: "currency" | "equipment";
@@ -10,11 +9,11 @@ export interface LootDrop {
   quantity?: number; // for currency stacks
 }
 
-export class SimpleLootGenerator {
+export class LootGenerator {
   /**
    * Generate loot for any monster based on level, rarity, and archetype
    */
-  static async generateLoot(monster: SimpleMonster): Promise<LootDrop[]> {
+  static async generateLoot(monster: Monster): Promise<LootDrop[]> {
     const drops: LootDrop[] = [];
     
     // determine base drop quantity from rarity
@@ -47,7 +46,7 @@ export class SimpleLootGenerator {
   /**
    * Roll a single drop (currency or equipment)
    */
-  private static async rollSingleDrop(monster: SimpleMonster): Promise<LootDrop | null> {
+  private static async rollSingleDrop(monster: Monster): Promise<LootDrop | null> {
     // determine currency vs equipment (70% equipment, 30% currency by default)
     let currencyChance = 30;
     
@@ -105,7 +104,7 @@ export class SimpleLootGenerator {
   /**
    * Roll equipment based on monster properties
    */
-  private static async rollEquipment(monster: SimpleMonster): Promise<LootDrop | null> {
+  private static async rollEquipment(monster: Monster): Promise<LootDrop | null> {
     // select random base type from all available
     const availableBases = ALL_BASE_ITEM_TYPES.filter(base => {
       const levelReq = base.requirements?.level || 1;
@@ -204,4 +203,4 @@ export class SimpleLootGenerator {
 
 // Example usage:
 // const physicalZombie = createPhysicalMonster("zombie1", "Zombie", MonsterSubtype.Zombie, 4);
-// const loot = await SimpleLootGenerator.generateLoot(physicalZombie);
+// const loot = await LootGenerator.generateLoot(physicalZombie);

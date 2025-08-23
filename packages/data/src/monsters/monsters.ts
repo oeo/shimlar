@@ -4,12 +4,12 @@ import {
   createPhysicalMonster, 
   createCasterMonster, 
   createRangedMonster,
-  SimpleMonster 
+  Monster 
 } from "./archetypes";
 import { MonsterRarity } from "./types";
 
 // all monsters across all acts - defined once, used everywhere
-export const MONSTER_REGISTRY: Record<string, SimpleMonster> = {
+export const MONSTER_REGISTRY: Record<string, Monster> = {
   // zombies (levels 1-10, can appear in multiple acts)
   "zombie_level_1": createPhysicalMonster("zombie_1", "Zombie", MonsterSubtype.Zombie, 1),
   "zombie_level_3": createPhysicalMonster("zombie_3", "Zombie", MonsterSubtype.Zombie, 3),
@@ -74,28 +74,28 @@ export const ZONE_SPAWNS = {
 };
 
 // helper functions
-export function getMonster(id: string): SimpleMonster | undefined {
+export function getMonster(id: string): Monster | undefined {
   return MONSTER_REGISTRY[id];
 }
 
-export function getZoneMonsters(zoneId: string): SimpleMonster[] {
+export function getZoneMonsters(zoneId: string): Monster[] {
   const monsterIds = ZONE_SPAWNS[zoneId] || [];
   return monsterIds.map(id => MONSTER_REGISTRY[id]).filter(Boolean);
 }
 
-export function getMonstersInLevelRange(minLevel: number, maxLevel: number): SimpleMonster[] {
+export function getMonstersInLevelRange(minLevel: number, maxLevel: number): Monster[] {
   return Object.values(MONSTER_REGISTRY).filter(
     monster => monster.level >= minLevel && monster.level <= maxLevel
   );
 }
 
-export function getMonstersByArchetype(archetype: MonsterArchetype): SimpleMonster[] {
+export function getMonstersByArchetype(archetype: MonsterArchetype): Monster[] {
   return Object.values(MONSTER_REGISTRY).filter(
     monster => monster.archetype === archetype
   );
 }
 
-export function getMonstersBySubtype(subtype: MonsterSubtype): SimpleMonster[] {
+export function getMonstersBySubtype(subtype: MonsterSubtype): Monster[] {
   return Object.values(MONSTER_REGISTRY).filter(
     monster => monster.subtype === subtype
   );

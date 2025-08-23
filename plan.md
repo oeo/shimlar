@@ -102,7 +102,8 @@ current focus: inventory management - grid-based inventory and stash system
   - [x] IIQ/IIR affix support for rings/jewelry (quantity/rarity find modifiers)
   - [x] integration with combat engine (async loot generation on monster death)
   - [x] major code simplification (removed 60% of loot code, 4 files vs 8 files)
-  - [x] comprehensive unit tests (11 tests, 36 expect calls, all passing)
+  - [x] comprehensive unit tests with PoE validation (24 tests across 3 files, 114+ expect calls)
+  - [x] renamed SimpleLootGenerator → LootGenerator, SimpleMonster → Monster (standard naming)
 - [ ] inventory management
   - [ ] grid-based inventory
   - [ ] stash system with tabs

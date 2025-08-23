@@ -44,7 +44,7 @@ export const archetypeLootModifiers = {
 };
 
 // create a monster with simple parameters
-export interface SimpleMonster {
+export interface Monster {
   id: string;
   name: string;
   archetype: MonsterArchetype;
@@ -61,7 +61,7 @@ export function createMonster(
   subtype: MonsterSubtype,
   level: number,
   rarity: MonsterRarity = MonsterRarity.Normal
-): SimpleMonster {
+): Monster {
   return {
     id,
     name,
