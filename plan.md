@@ -1,4 +1,4 @@
-current focus: items & loot system - base item types and affix generation
+current focus: loot generation - weighted drop tables and smart loot system
 
 ## phase 0: monorepo structure & documentation
 - [x] initial project setup (2025-01-23)
@@ -53,39 +53,46 @@ current focus: items & loot system - base item types and affix generation
   - [x] unit tests for mitigation calculations
 
 ## phase 2: items & loot system
-- [ ] item architecture
-  - [ ] base item types system
-    - [ ] weapon types (axes, swords, maces, daggers, claws, bows, staves, scepters, wands)
-    - [ ] armor types (helmets, body armor, gloves, boots, shields)
-    - [ ] jewelry types (rings, amulets, belts)
-    - [ ] flask types (life, mana, hybrid, utility)
-  - [ ] affix system using item-affixes.json
-    - [ ] prefix pool (offensive modifiers)
-    - [ ] suffix pool (defensive modifiers)
-    - [ ] tier-based affix selection by item level
-    - [ ] affix value range rolling
-  - [ ] item rarity tiers
-    - [ ] normal: no affixes
-    - [ ] magic: 1 prefix and/or 1 suffix
-    - [ ] rare: up to 3 prefixes and 3 suffixes
-    - [ ] unique: fixed special modifiers (future)
-  - [ ] item level and requirement system
-    - [ ] item level determines available affixes
-    - [ ] stat requirements (str/dex/int) from base types
-    - [ ] level requirements from affixes
-  - [ ] unit tests for item generation
-- [ ] equipment system
-  - [ ] equipment slots
-    - [ ] main hand (all weapon types)
-    - [ ] off hand (shields, dual wield)
-    - [ ] helm, body armor, gloves, boots
-    - [ ] belt, amulet, ring left, ring right
-  - [ ] stat aggregation from equipment
-    - [ ] sum all affix modifiers
-    - [ ] apply percentage increases
-    - [ ] calculate final stats
-  - [ ] item comparison system
-  - [ ] unit tests for equipment bonuses
+- [x] item architecture (2025-01-23)
+  - [x] base item types system
+    - [x] weapon types (axes, swords, maces, daggers, claws, bows, staves, scepters, wands)
+    - [x] armor types (helmets, body armor, gloves, boots, shields)
+    - [x] jewelry types (rings, amulets, belts)
+    - [x] flask types (life, mana, hybrid, utility)
+  - [x] affix system using item-affixes.json
+    - [x] prefix pool (offensive modifiers)
+    - [x] suffix pool (defensive modifiers)
+    - [x] tier-based affix selection by item level
+    - [x] affix value range rolling
+  - [x] item rarity tiers
+    - [x] normal: no affixes
+    - [x] magic: 1 prefix and/or 1 suffix
+    - [x] rare: up to 3 prefixes and 3 suffixes
+    - [x] unique: fixed special modifiers (future)
+  - [x] item level and requirement system
+    - [x] item level determines available affixes
+    - [x] stat requirements (str/dex/int) from base types
+    - [x] level requirements from affixes
+  - [x] unit tests for item generation
+- [x] equipment system (2025-01-23)
+  - [x] equipment slots
+    - [x] main hand (all weapon types)
+    - [x] off hand (shields, dual wield)
+    - [x] helm, body armor, gloves, boots
+    - [x] belt, amulet, ring left, ring right
+  - [x] stat aggregation from equipment
+    - [x] sum all affix modifiers
+    - [x] apply percentage increases
+    - [x] calculate final stats
+  - [x] item comparison system
+  - [x] unit tests for equipment bonuses
+- [x] documentation and testing (2025-01-23)
+  - [x] update architecture.md with item system details
+  - [x] update development.md with usage examples  
+  - [x] create comprehensive item generation demo script
+  - [x] create validation script for rarity/affix mechanics
+  - [x] add npm scripts for testing and demos
+  - [x] validate all 68 tests passing (441 expect calls)
 - [ ] loot generation
   - [ ] weighted drop tables by monster type
   - [ ] rarity roll system

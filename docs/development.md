@@ -25,8 +25,12 @@ bun run dev
 # run tests
 bun test
 
-# run specific test
-bun test tests/unit/combat.test.ts
+# run specific test suite
+bun test packages/core/tests/combat/
+bun test packages/core/tests/items/
+
+# run with bail (stop on first failure)
+bun test --bail
 ```
 
 ## development workflow
@@ -331,6 +335,56 @@ enum LogLevel {
     <Text>Debug: {JSON.stringify(state)}</Text>
   </Box>
 )}
+```
+
+### item system
+
+```typescript
+import { 
+  generateItemFromBase, 
+  getBaseItemTypeByName,
+  EquipmentManager,
+  ItemRarity 
+} from "@shimlar/core";
+
+// generate items
+const baseAxe = getBaseItemTypeByName("Rusted Hatchet")!;
+const item = await generateItemFromBase(baseAxe, 25); // item level 25
+
+// force specific rarity
+const rareItem = await itemGenerator.generateItem({
+  baseType: baseAxe,
+  itemLevel: 50,
+  rarity: ItemRarity.Rare,
+  forceRarity: true
+});
+
+// equipment management
+const equipment = new EquipmentManager();
+equipment.equipItem(item, ItemSlot.MainHand);
+const stats = equipment.calculateStats(); // aggregate all bonuses
+```
+
+### affix system
+
+```typescript
+import { getAvailableAffixes, rollRandomAffix, AffixType } from "@shimlar/core";
+
+// get available affixes for item level
+const { prefixes, suffixes } = await getAvailableAffixes(
+  ItemCategory.OneHandedAxe, 
+  50 // item level
+);
+
+// roll specific affix type
+const prefix = await rollRandomAffix(
+  ItemCategory.OneHandedAxe, 
+  50, 
+  AffixType.Prefix
+);
+
+console.log(`${prefix?.displayName} - ${prefix?.displayText}`);
+// "Heavy - 45% increased Physical Damage"
 ```
 
 ## performance considerations

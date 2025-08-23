@@ -45,24 +45,39 @@ shimlar/
 // example structure
 core/src/
 ├── entities/
-│   ├── Character.ts      // player character class
-│   ├── Monster.ts        // enemy class
-│   └── Item.ts          // item class
+│   ├── Entity.ts         // base entity with component system
+│   └── Character.ts      // player character creation
+├── components/
+│   ├── HealthComponent.ts
+│   ├── StatsComponent.ts
+│   └── PositionComponent.ts
 ├── combat/
-│   ├── damage.ts        // damage calculations
-│   ├── mitigation.ts    // armor/resistance calculations
-│   └── formulas.ts      // combat formulas
+│   ├── CombatEngine.ts   // tick-based combat system
+│   ├── formulas.ts       // hit/damage calculations
+│   ├── DamageOverTime.ts // poison/ignite/bleed system
+│   └── CombatLog.ts      // detailed combat logging
 ├── items/
-│   ├── generation.ts    // item generation
-│   ├── affixes.ts       // prefix/suffix system
-│   └── rarity.ts        // rarity tiers
-├── skills/
-│   ├── Skill.ts         // skill base class
-│   └── effects.ts       // skill effects
-├── constants/
-│   └── game.ts          // game constants
+│   ├── BaseItemTypes.ts  // weapon/armor/accessory definitions
+│   ├── AffixSystem.ts    // prefix/suffix generation
+│   ├── ItemGeneration.ts // complete item creation
+│   └── Equipment.ts      // equipment slots and stat calculation
+├── character/
+│   ├── CharacterClass.ts // 7 character classes with stat distributions  
+│   └── Character.ts      // character creation and management
+├── zones/
+│   ├── Zone.ts           // zone/area definitions
+│   └── ZoneManager.ts    // zone management system
+├── events/
+│   ├── EventBus.ts       // game event system
+│   └── GameEvents.ts     // event type definitions
+├── entities/
+│   └── Entity.ts         // base entity with component system
+├── components/
+│   ├── HealthComponent.ts
+│   ├── StatsComponent.ts
+│   └── PositionComponent.ts
 └── types/
-    └── index.ts         // shared types
+    └── types.ts          // combat types
 ```
 
 **key principles**:
@@ -142,9 +157,9 @@ cli/src/
 ```
 data/
 ├── items/
-│   ├── bases.json       // base item types
-│   ├── uniques.json     // unique items
-│   └── affixes.json     // affix pools
+│   ├── affixes.json     // complete 11k+ line affix database
+│   ├── bases.json       // base item types (future)
+│   └── uniques.json     // unique items (future)
 ├── monsters/
 │   ├── normal.json      // regular enemies
 │   └── bosses.json      // boss enemies
@@ -232,6 +247,44 @@ but these are **not** initial goals.
 3. don't put ui code in the engine or core
 4. don't optimize prematurely
 5. don't add features not in the plan
+
+## item system architecture
+
+### item generation pipeline
+
+```
+1. select base item type → weapon/armor/accessory/flask
+2. determine item level → from zone/monster level  
+3. roll rarity → normal/magic/rare/unique
+4. generate affixes → based on rarity and item level
+5. calculate requirements → level + stat requirements
+6. create final item → with name, stats, and display
+```
+
+### affix system
+
+the affix system uses a comprehensive database with:
+- **30+ item categories** (weapons, armor types, jewelry)
+- **prefix pools** (offensive modifiers like damage)  
+- **suffix pools** (defensive modifiers like resistances)
+- **tier progression** (higher levels = better values)
+- **level requirements** (item level gates affix access)
+
+### equipment system
+
+- **15 equipment slots** including dual wield and 5 flask slots
+- **stat aggregation** combines all equipped item bonuses
+- **two-handed restrictions** prevent off-hand items with 2h weapons  
+- **item comparison** automatic upgrade/downgrade analysis
+- **requirements validation** level and attribute requirements
+
+### rarity distribution
+
+following path of exile mechanics:
+- **normal**: 78% chance, no affixes
+- **magic**: 20% chance, 1-2 affixes  
+- **rare**: 1.9% chance, 4-6 affixes
+- **unique**: 0.1% chance, fixed modifiers
 
 ## for future developers
 

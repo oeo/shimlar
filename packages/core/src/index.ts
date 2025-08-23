@@ -63,3 +63,48 @@ export type {
   CombatTick, 
   CombatEvent 
 } from "./combat/types";
+
+// items
+export { 
+  ItemCategory,
+  WeaponType,
+  ArmorType, 
+  ItemSlot,
+  ALL_BASE_ITEM_TYPES,
+  WEAPON_BASE_TYPES,
+  ARMOR_BASE_TYPES,
+  ACCESSORY_BASE_TYPES,
+  FLASK_BASE_TYPES,
+  getBaseItemTypesByCategory,
+  getBaseItemTypeByName,
+  type BaseItemType,
+  type StatRequirements
+} from "./items/BaseItemTypes";
+export {
+  AffixType,
+  affixData,
+  getAvailableAffixes,
+  rollRandomAffix,
+  type Affix,
+  type AffixTier,
+  type AffixDefinition,
+  type AffixPool
+} from "./items/AffixSystem";
+export {
+  ItemRarity,
+  itemGenerator,
+  calculateItemRequirements,
+  canEquipItem,
+  getItemDisplayName,
+  getItemDisplayColor,
+  generateItemFromBase,
+  type Item,
+  type ItemGenerationOptions
+} from "./items/ItemGeneration";
+export {
+  EquipmentManager,
+  compareItems,
+  type EquipmentSlots,
+  type EquippedStats,
+  type ItemComparison
+} from "./items/Equipment";

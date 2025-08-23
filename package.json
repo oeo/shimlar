@@ -8,6 +8,9 @@
   "scripts": {
     "dev": "bun run --cwd packages/cli dev",
     "test": "bun test",
+    "test:items": "bun test packages/core/tests/items/",
+    "demo:items": "bun run packages/core/scripts/demo-item-generation.ts",
+    "validate:items": "bun run packages/core/scripts/validate-item-generation.ts",
     "clean": "rm -rf packages/*/node_modules"
   },
   "devDependencies": {

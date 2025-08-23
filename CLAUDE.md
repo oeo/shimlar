@@ -14,8 +14,14 @@ bun run --watch src/index.tsx
 # run tests
 bun test
 
-# run specific test file
-bun test tests/unit/combat.test.ts
+# run specific test suites
+bun run test:items
+
+# run item generation demo
+bun run demo:items
+
+# validate item generation system  
+bun run validate:items
 
 # build for production
 bun build src/index.tsx --outdir dist --target node
@@ -92,7 +98,14 @@ bun run dist/index.js
 - item generation uses weighted pools
 - mock item bases in `src/data/items.json`
 
-### crafting system
+### item & equipment systems
+- **base item types:** 30+ weapon, armor, jewelry, and flask types with proper requirements
+- **affix system:** complete integration with 11k+ line `affixes.json` database
+- **rarity tiers:** normal (no affixes), magic (1-2), rare (4-6), unique (future)
+- **equipment system:** 15 equipment slots with dual-wield support and stat aggregation
+- **item generation:** level-gated affixes with path of exile accurate rarity distribution
+
+### crafting system (future)
 - currency-based modifications
 - deterministic outcomes for testing
 - recipes in `src/data/recipes.json`
@@ -105,3 +118,4 @@ bun run dist/index.js
 
 ## Current development focus
 check `plan.md` for current tasks and priorities. always update plan.md when completing tasks.
+- whenever we add scripts into the package.json we should update the readme.md file with an explanation of what it is. if we remove scripts from package.json we should remove the explanation from readme.md
