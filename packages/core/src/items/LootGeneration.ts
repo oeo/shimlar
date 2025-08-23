@@ -47,13 +47,8 @@ export class LootGenerator {
    * Roll a single drop (currency or equipment)
    */
   private static async rollSingleDrop(monster: Monster): Promise<LootDrop | null> {
-    // determine currency vs equipment (70% equipment, 30% currency by default)
-    let currencyChance = 30;
-    
-    // casters get slightly more currency
-    if (monster.archetype === MonsterArchetype.Caster) {
-      currencyChance = 40;
-    }
+    // determine currency vs equipment (70% equipment, 30% currency)
+    const currencyChance = 30;
     
     if (Math.random() * 100 < currencyChance) {
       return this.rollCurrency(monster.level);

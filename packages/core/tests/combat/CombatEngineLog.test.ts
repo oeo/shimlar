@@ -257,29 +257,39 @@ describe("CombatEngine with CombatLog", () => {
       actions.forEach(action => engine.queueAction(action));
 
       let ticksProcessed = 0;
+      let totalActionsCompleted = 0;
+      
       eventBus.on("combat.tick", (tick) => {
         ticksProcessed++;
+        totalActionsCompleted += tick.actions.length;
         
-        if (tick.actions.length >= 3) {
+        // check if we've processed all 3 actions (they might complete over multiple ticks)
+        if (totalActionsCompleted >= 3) {
           engine.stop();
           
           const log = engine.getCombatLog();
           const entries = log.getEntries();
           
-          // should have multiple damage entries from the same tick
-          const damageEntries = entries.filter(e => e.type === "damage");
-          expect(damageEntries.length).toBeGreaterThanOrEqual(2);
+          // should have multiple combat-related entries 
+          const combatEntries = entries.filter(e => e.type === "damage" || e.type === "miss");
+          expect(combatEntries.length).toBeGreaterThanOrEqual(2);
           
           // entries should have proper entity names
-          const heroAttack = damageEntries.find(e => e.message.includes("Hero hits"));
-          const orcAttack = damageEntries.find(e => e.message.includes("Orc hits"));
-          const goblinAttack = damageEntries.find(e => e.message.includes("Goblin hits"));
+          const heroEvents = combatEntries.filter(e => e.message.includes("Hero"));
+          const orcEvents = combatEntries.filter(e => e.message.includes("Orc"));
+          const goblinEvents = combatEntries.filter(e => e.message.includes("Goblin"));
           
-          // at least some of these should exist (probabilistic due to hit/miss)
-          const totalAttacks = [heroAttack, orcAttack, goblinAttack].filter(Boolean).length;
-          expect(totalAttacks).toBeGreaterThan(0);
+          // at least 2 entities should have generated events
+          const entitiesWithEvents = [heroEvents, orcEvents, goblinEvents].filter(events => events.length > 0).length;
+          expect(entitiesWithEvents).toBeGreaterThanOrEqual(2);
           
           done();
+        }
+        
+        // timeout after reasonable number of ticks
+        if (ticksProcessed >= 10) {
+          engine.stop();
+          done(new Error(`Only processed ${totalActionsCompleted} actions after ${ticksProcessed} ticks`));
         }
       });
 

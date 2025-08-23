@@ -245,43 +245,6 @@ describe("Loot Validation - Path of Exile Mechanics", () => {
     });
   });
 
-  describe("archetype behavioral differences", () => {
-    it("should show slight differences between archetypes like poe monster types", async () => {
-      const physical = createPhysicalMonster("phys", "Orc Warrior", MonsterSubtype.Orc, 20);
-      const caster = createCasterMonster("cast", "Orc Shaman", MonsterSubtype.Orc, 20);
-      const ranged = createRangedMonster("range", "Orc Archer", MonsterSubtype.Orc, 20);
-      
-      const iterations = 40;
-      const results = {
-        physical: { currency: 0, equipment: 0 },
-        caster: { currency: 0, equipment: 0 },
-        ranged: { currency: 0, equipment: 0 }
-      };
-      
-      for (let i = 0; i < iterations; i++) {
-        for (const [type, monster] of [
-          ["physical", physical], ["caster", caster], ["ranged", ranged]
-        ] as const) {
-          const loot = await LootGenerator.generateLoot(monster);
-          results[type].currency += loot.filter(l => l.type === "currency").length;
-          results[type].equipment += loot.filter(l => l.type === "equipment").length;
-        }
-      }
-      
-      // casters should have slightly more currency (following our archetype design)
-      const casterCurrencyRate = results.caster.currency / (results.caster.currency + results.caster.equipment);
-      const physicalCurrencyRate = results.physical.currency / (results.physical.currency + results.physical.equipment);
-      
-      expect(casterCurrencyRate).toBeGreaterThanOrEqual(physicalCurrencyRate * 0.9); // at least similar or better
-      
-      console.log("Archetype loot distribution:");
-      Object.entries(results).forEach(([type, data]) => {
-        const total = data.currency + data.equipment;
-        const currencyPercent = ((data.currency / total) * 100).toFixed(1);
-        console.log(`${type}: ${currencyPercent}% currency, ${total} total items`);
-      });
-    });
-  });
 
   describe("cross-act scaling validation", () => {
     it("should maintain appropriate loot progression across different acts", async () => {
