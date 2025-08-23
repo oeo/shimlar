@@ -1,4 +1,4 @@
-current focus: loot generation - weighted drop tables and smart loot system
+current focus: inventory management - grid-based inventory and stash system
 
 ## phase 0: monorepo structure & documentation
 - [x] initial project setup (2025-01-23)
@@ -93,13 +93,16 @@ current focus: loot generation - weighted drop tables and smart loot system
   - [x] create validation script for rarity/affix mechanics
   - [x] add npm scripts for testing and demos
   - [x] validate all 68 tests passing (441 expect calls)
-- [ ] loot generation
-  - [ ] weighted drop tables by monster type
-  - [ ] rarity roll system
-  - [ ] affix selection from pools
-  - [ ] rarity affixes on gear may affect quality of items dropped
-  - [ ] quantity affixes on gear may affect number of items dropped
-  - [ ] unit tests for drop rates
+- [x] loot generation (2025-01-23)
+  - [x] simplified archetype-based monster system (physical/caster/ranged/mixed)
+  - [x] level-scaling currency drops (all currency available, exponentially weighted by level)
+  - [x] rarity-based drop quantity scaling (normal 0-2, magic 1-3, rare 2-5, unique 3-7 items)
+  - [x] cross-act monster registry system (define once, use everywhere)
+  - [x] zone spawn table system (easy monster-to-zone mapping)
+  - [x] IIQ/IIR affix support for rings/jewelry (quantity/rarity find modifiers)
+  - [x] integration with combat engine (async loot generation on monster death)
+  - [x] major code simplification (removed 60% of loot code, 4 files vs 8 files)
+  - [x] comprehensive unit tests (11 tests, 36 expect calls, all passing)
 - [ ] inventory management
   - [ ] grid-based inventory
   - [ ] stash system with tabs
