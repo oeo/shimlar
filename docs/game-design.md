@@ -4,7 +4,7 @@
 
 ## game vision
 
-shimlar is a terminal-based arpg that captures the depth and complexity of path of exile while embracing terminal constraints. we achieve depth through simple, composable systems rather than numerous complex features.
+shimlar is an arpg that captures the depth and complexity of path of exile. we achieve depth through simple, composable systems rather than numerous complex features.
 
 ## core gameplay loop
 

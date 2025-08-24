@@ -3,8 +3,8 @@
  */
 
 import { describe, test, expect } from 'bun:test';
-import { ZoneGenerator } from '../../packages/core/src/zones/ZoneGenerator';
-import { ZoneTemplate } from '../../packages/core/src/zones/ZoneTypes';
+import { ZoneGenerator } from '../../src/zones/ZoneGenerator';
+import { ZoneTemplate } from '../../src/zones/ZoneTypes';
 
 const mockTemplate: ZoneTemplate = {
   id: 'test_zone',

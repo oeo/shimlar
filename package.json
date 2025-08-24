@@ -8,8 +8,8 @@
   "scripts": {
     "test": "bun test",
     "test:items": "bun test packages/core/tests/items/",
-    "demo:items": "bun run packages/core/scripts/demo-item-generation.ts",
-    "validate:items": "bun run packages/core/scripts/validate-item-generation.ts",
+    "demo:items": "bun run scripts/demo-item-generation.ts",
+    "validate:items": "bun run scripts/validate-item-generation.ts",
     "server": "bun run packages/server/src/index.ts",
     "clean": "rm -rf packages/*/node_modules"
   },

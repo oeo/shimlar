@@ -4,7 +4,6 @@
 
 - bun 1.0+ (not node.js)
 - typescript knowledge
-- familiarity with react (for future client)
 
 ## getting started
 
@@ -44,9 +43,9 @@ cat plan.md | grep "current focus"
 every feature needs tests:
 
 ```typescript
-// tests/items/UniqueItems.test.ts
+// packages/core/tests/items/UniqueItems.test.ts
 import { describe, it, expect } from "bun:test";
-import { generateUniqueItem } from "@shimlar/core/items/UniqueItems";
+import { generateUniqueItem } from "../../src/items/UniqueItems";
 
 describe("unique item generation", () => {
   it("should create tabula rasa with correct properties", () => {
@@ -277,9 +276,10 @@ bun run server      # start api server
 bun test           # run tests
 bun test --coverage # test coverage
 
-# item system
-bun run demo:items     # interactive item demo
-bun run validate:items # validate item generation
+# demo scripts
+bun run demo:items        # interactive item demo
+bun run validate:items    # validate item generation
+bun run scripts/zone-demo.ts # zone generation visualization
 
 # project
 bun run typecheck  # typescript check
@@ -303,7 +303,8 @@ if you're an ai assistant working on this project:
 5. **update plan.md** - mark completed work
 
 current state:
-- cli has been removed
-- api server is ready
-- game logic is complete (278 tests)
-- ready for react client development
+- game logic: 330 tests across 24 files
+- zone system: procedural generation with 5 algorithms, safe towns with npcs
+- item system: path of exile-accurate generation with 11k+ affix database
+- combat system: tick-based combat with dot mechanics and detailed logging
+- api server: rest endpoints for player/session management

@@ -118,7 +118,7 @@ game logic validated with 330 tests across 24 files:
 
 ## documentation
 
-- `plan.md` - project roadmap and completed features
-- `docs/architecture.md` - system architecture details
-- `docs/development.md` - development guide with examples
+- `plan.md` - project roadmap and completed features  
+- `docs/architecture.md` - system design and package structure
+- `docs/development.md` - coding standards and workflow guide
 - `CLAUDE.md` - ai assistant context

@@ -2,29 +2,38 @@
 
 ## overview
 
-shimlar is a terminal-based arpg inspired by path of exile, transitioning to a web-based react client:
+shimlar is an arpg inspired by path of exile, built with modern web technologies:
 - **runtime**: bun (not node.js)
 - **language**: typescript with strict typing
 - **architecture**: monorepo with 4 focused packages
 - **persistence**: sqlite (dev) / postgresql (prod) with redis sessions
-- **api**: rest api server for react client
+- **api**: rest api server
 
 ## current state (2025-01-24)
 
-- **cli removed**: terminal interface deprecated in favor of web client
-- **api ready**: rest endpoints for player/session management
-- **game logic complete**: 278 passing tests for all core mechanics
-- **react client next**: ready for web interface development
+- **game logic**: 330 passing tests across 24 files validating all mechanics
+- **zone system**: procedural generation with 5 algorithms, safe towns with npcs
+- **item system**: path of exile-accurate generation with 11k+ affix database
+- **combat system**: tick-based combat with dot mechanics and detailed logging
+- **api server**: rest endpoints for player/session management
 
 ## monorepo structure
 
 ```
 shimlar/
+├── scripts/         # demo and utility scripts
 ├── packages/
 │   ├── core/        # game mechanics (pure logic)
+│   │   ├── src/     # source code
+│   │   └── tests/   # unit tests (co-located)
 │   ├── engine/      # state management & persistence
+│   │   ├── src/
+│   │   └── tests/
 │   ├── data/        # static game data & affixes
+│   │   └── items/   # 11k+ line affix database
 │   └── server/      # rest api server
+│       ├── src/
+│       └── tests/
 ```
 
 ### package: @shimlar/core
@@ -53,9 +62,12 @@ core/src/
 ├── character/            # character system
 │   ├── CharacterClass.ts # 7 classes
 │   └── Character.ts      
-├── zones/                # zone management
-│   ├── Zone.ts          
-│   └── ZoneManager.ts    
+├── zones/                # zone generation system
+│   ├── Zone.ts           # zone instance management
+│   ├── ZoneGenerator.ts  # 5 procedural generators
+│   ├── ZoneTemplates.ts  # 10 predefined zones
+│   ├── ZoneTypes.ts      # type definitions
+│   └── EnhancedZoneManager.ts # zone state management    
 └── events/               # event system
     ├── EventBus.ts      
     └── GameEvents.ts     

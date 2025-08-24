@@ -15,7 +15,7 @@ import {
   generateItemFromBase,
   affixData,
   EquipmentManager
-} from "../src/index";
+} from "../packages/core/src/index";
 
 interface ValidationResults {
   totalItems: number;

@@ -21,7 +21,7 @@ import {
   ItemSlot,
   getItemDisplayColor,
   getItemDisplayName
-} from "../src/index";
+} from "../packages/core/src/index";
 
 const colors = {
   white: '\x1b[37m',

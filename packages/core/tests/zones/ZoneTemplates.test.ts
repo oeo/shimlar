@@ -3,14 +3,14 @@
  */
 
 import { describe, test, expect, beforeEach } from 'bun:test';
-import { EnhancedZoneManager } from '../../packages/core/src/zones/EnhancedZoneManager';
+import { EnhancedZoneManager } from '../../src/zones/EnhancedZoneManager';
 import { 
   ZONE_TEMPLATES, 
   getZoneTemplate, 
   getZoneTemplatesByAct, 
   getTownZoneTemplates,
   getBossZoneTemplates 
-} from '../../packages/core/src/zones/ZoneTemplates';
+} from '../../src/zones/ZoneTemplates';
 
 describe('Zone Templates', () => {
   test('should have predefined zone templates', () => {
