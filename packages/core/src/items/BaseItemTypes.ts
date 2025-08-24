@@ -32,6 +32,16 @@ export enum ItemCategory {
   ManaFlask = "Mana", 
   HybridFlask = "Hybrid",
   UtilityFlask = "Utility",
+  CriticalUtilityFlask = "Critical Utility",
+  
+  // other equipment
+  Quiver = "Quiver",
+  
+  // jewels
+  CrimsonJewel = "Crimson",
+  ViridianJewel = "Viridian",
+  CobaltJewel = "Cobalt",
+  PrismaticJewel = "Prismatic",
 }
 
 export enum WeaponType {
@@ -142,6 +152,108 @@ export const WEAPON_BASE_TYPES: BaseItemType[] = [
     tags: ["weapon", "melee", "dagger", "one-handed"]
   },
   
+  // one-handed maces
+  {
+    category: ItemCategory.OneHandedMace,
+    name: "Driftwood Club",
+    itemClass: "weapon",
+    slot: [ItemSlot.MainHand, ItemSlot.OffHand],
+    weaponType: WeaponType.OneHanded,
+    requirements: { level: 1, strength: 14, dexterity: 0, intelligence: 0 },
+    tags: ["weapon", "melee", "mace", "one-handed"]
+  },
+  {
+    category: ItemCategory.OneHandedMace,
+    name: "Stone Hammer",
+    itemClass: "weapon",
+    slot: [ItemSlot.MainHand, ItemSlot.OffHand],
+    weaponType: WeaponType.OneHanded,
+    requirements: { level: 15, strength: 35, dexterity: 0, intelligence: 0 },
+    tags: ["weapon", "melee", "mace", "one-handed"]
+  },
+  
+  // scepters
+  {
+    category: ItemCategory.Scepter,
+    name: "Driftwood Sceptre",
+    itemClass: "weapon",
+    slot: [ItemSlot.MainHand, ItemSlot.OffHand],
+    weaponType: WeaponType.OneHanded,
+    requirements: { level: 1, strength: 8, dexterity: 0, intelligence: 8 },
+    implicitMods: ["10% increased Elemental Damage"],
+    tags: ["weapon", "melee", "scepter", "one-handed", "caster"]
+  },
+  {
+    category: ItemCategory.Scepter,
+    name: "Bronze Sceptre",
+    itemClass: "weapon",
+    slot: [ItemSlot.MainHand, ItemSlot.OffHand],
+    weaponType: WeaponType.OneHanded,
+    requirements: { level: 10, strength: 22, dexterity: 0, intelligence: 22 },
+    implicitMods: ["12% increased Elemental Damage"],
+    tags: ["weapon", "melee", "scepter", "one-handed", "caster"]
+  },
+  
+  // one-handed swords
+  {
+    category: ItemCategory.OneHandedSword,
+    name: "Rusted Sword",
+    itemClass: "weapon",
+    slot: [ItemSlot.MainHand, ItemSlot.OffHand],
+    weaponType: WeaponType.OneHanded,
+    requirements: { level: 1, strength: 8, dexterity: 8, intelligence: 0 },
+    tags: ["weapon", "melee", "sword", "one-handed"]
+  },
+  {
+    category: ItemCategory.OneHandedSword,
+    name: "Copper Sword",
+    itemClass: "weapon",
+    slot: [ItemSlot.MainHand, ItemSlot.OffHand],
+    weaponType: WeaponType.OneHanded,
+    requirements: { level: 5, strength: 14, dexterity: 14, intelligence: 0 },
+    tags: ["weapon", "melee", "sword", "one-handed"]
+  },
+  
+  // two-handed axes
+  {
+    category: ItemCategory.TwoHandedAxe,
+    name: "Stone Axe",
+    itemClass: "weapon",
+    slot: ItemSlot.MainHand,
+    weaponType: WeaponType.TwoHanded,
+    requirements: { level: 4, strength: 18, dexterity: 0, intelligence: 0 },
+    tags: ["weapon", "melee", "axe", "two-handed"]
+  },
+  {
+    category: ItemCategory.TwoHandedAxe,
+    name: "Jade Chopper",
+    itemClass: "weapon",
+    slot: ItemSlot.MainHand,
+    weaponType: WeaponType.TwoHanded,
+    requirements: { level: 9, strength: 27, dexterity: 0, intelligence: 0 },
+    tags: ["weapon", "melee", "axe", "two-handed"]
+  },
+  
+  // two-handed maces
+  {
+    category: ItemCategory.TwoHandedMace,
+    name: "Driftwood Maul",
+    itemClass: "weapon",
+    slot: ItemSlot.MainHand,
+    weaponType: WeaponType.TwoHanded,
+    requirements: { level: 3, strength: 20, dexterity: 0, intelligence: 0 },
+    tags: ["weapon", "melee", "mace", "two-handed"]
+  },
+  {
+    category: ItemCategory.TwoHandedMace,
+    name: "Tribal Maul",
+    itemClass: "weapon",
+    slot: ItemSlot.MainHand,
+    weaponType: WeaponType.TwoHanded,
+    requirements: { level: 8, strength: 26, dexterity: 0, intelligence: 0 },
+    tags: ["weapon", "melee", "mace", "two-handed"]
+  },
+  
   // two-handed swords
   {
     category: ItemCategory.TwoHandedSword,
@@ -150,6 +262,15 @@ export const WEAPON_BASE_TYPES: BaseItemType[] = [
     slot: ItemSlot.MainHand, 
     weaponType: WeaponType.TwoHanded,
     requirements: { level: 8, strength: 26, dexterity: 0, intelligence: 0 },
+    tags: ["weapon", "melee", "sword", "two-handed"]
+  },
+  {
+    category: ItemCategory.TwoHandedSword,
+    name: "Longsword",
+    itemClass: "weapon",
+    slot: ItemSlot.MainHand,
+    weaponType: WeaponType.TwoHanded,
+    requirements: { level: 14, strength: 37, dexterity: 14, intelligence: 0 },
     tags: ["weapon", "melee", "sword", "two-handed"]
   },
   
@@ -249,6 +370,64 @@ export const ARMOR_BASE_TYPES: BaseItemType[] = [
     tags: ["armor", "body", "int"]
   },
   
+  // gloves
+  {
+    category: ItemCategory.Gloves,
+    name: "Iron Gauntlets",
+    itemClass: "armor",
+    slot: ItemSlot.Gloves,
+    armorType: ArmorType.Armor,
+    requirements: { level: 1, strength: 8, dexterity: 0, intelligence: 0 },
+    tags: ["armor", "gloves", "str"]
+  },
+  {
+    category: ItemCategory.Gloves,
+    name: "Rawhide Gloves",
+    itemClass: "armor",
+    slot: ItemSlot.Gloves,
+    armorType: ArmorType.Evasion,
+    requirements: { level: 1, strength: 0, dexterity: 8, intelligence: 0 },
+    tags: ["armor", "gloves", "dex"]
+  },
+  {
+    category: ItemCategory.Gloves,
+    name: "Wool Gloves",
+    itemClass: "armor",
+    slot: ItemSlot.Gloves,
+    armorType: ArmorType.EnergyShield,
+    requirements: { level: 1, strength: 0, dexterity: 0, intelligence: 8 },
+    tags: ["armor", "gloves", "int"]
+  },
+  
+  // boots
+  {
+    category: ItemCategory.Boots,
+    name: "Iron Greaves",
+    itemClass: "armor",
+    slot: ItemSlot.Boots,
+    armorType: ArmorType.Armor,
+    requirements: { level: 1, strength: 8, dexterity: 0, intelligence: 0 },
+    tags: ["armor", "boots", "str"]
+  },
+  {
+    category: ItemCategory.Boots,
+    name: "Rawhide Boots",
+    itemClass: "armor",
+    slot: ItemSlot.Boots,
+    armorType: ArmorType.Evasion,
+    requirements: { level: 1, strength: 0, dexterity: 8, intelligence: 0 },
+    tags: ["armor", "boots", "dex"]
+  },
+  {
+    category: ItemCategory.Boots,
+    name: "Wool Shoes",
+    itemClass: "armor",
+    slot: ItemSlot.Boots,
+    armorType: ArmorType.EnergyShield,
+    requirements: { level: 1, strength: 0, dexterity: 0, intelligence: 8 },
+    tags: ["armor", "boots", "int"]
+  },
+  
   // shields
   {
     category: ItemCategory.Shield,
@@ -259,11 +438,51 @@ export const ARMOR_BASE_TYPES: BaseItemType[] = [
     requirements: { level: 1, strength: 12, dexterity: 0, intelligence: 0 },
     implicitMods: ["Chance to Block: 20%"],
     tags: ["armor", "shield", "str"]
+  },
+  {
+    category: ItemCategory.Shield,
+    name: "Goathide Buckler",
+    itemClass: "armor",
+    slot: ItemSlot.OffHand,
+    armorType: ArmorType.Evasion,
+    requirements: { level: 1, strength: 0, dexterity: 12, intelligence: 0 },
+    implicitMods: ["Chance to Block: 15%"],
+    tags: ["armor", "shield", "dex"]
+  },
+  {
+    category: ItemCategory.Shield,
+    name: "Twig Spirit Shield",
+    itemClass: "armor",
+    slot: ItemSlot.OffHand,
+    armorType: ArmorType.EnergyShield,
+    requirements: { level: 1, strength: 0, dexterity: 0, intelligence: 12 },
+    implicitMods: ["Chance to Block: 10%", "+5% increased Spell Damage"],
+    tags: ["armor", "shield", "int"]
   }
 ];
 
 // accessory base types
 export const ACCESSORY_BASE_TYPES: BaseItemType[] = [
+  // quivers
+  {
+    category: ItemCategory.Quiver,
+    name: "Serrated Arrow Quiver",
+    itemClass: "accessory",
+    slot: ItemSlot.OffHand,
+    requirements: { level: 5, strength: 0, dexterity: 14, intelligence: 0 },
+    implicitMods: ["10% increased Attack Speed with Bows"],
+    tags: ["accessory", "quiver"]
+  },
+  {
+    category: ItemCategory.Quiver,
+    name: "Two-Point Arrow Quiver",
+    itemClass: "accessory",
+    slot: ItemSlot.OffHand,
+    requirements: { level: 12, strength: 0, dexterity: 26, intelligence: 0 },
+    implicitMods: ["20% increased Critical Strike Chance with Bows"],
+    tags: ["accessory", "quiver"]
+  },
+  
   // rings
   {
     category: ItemCategory.Ring,
@@ -309,6 +528,7 @@ export const ACCESSORY_BASE_TYPES: BaseItemType[] = [
 
 // flask base types
 export const FLASK_BASE_TYPES: BaseItemType[] = [
+  // life flasks
   {
     category: ItemCategory.LifeFlask,
     name: "Small Life Flask",
@@ -319,6 +539,26 @@ export const FLASK_BASE_TYPES: BaseItemType[] = [
     tags: ["flask", "life"]
   },
   {
+    category: ItemCategory.LifeFlask,
+    name: "Medium Life Flask",
+    itemClass: "flask",
+    slot: [ItemSlot.Flask1, ItemSlot.Flask2, ItemSlot.Flask3, ItemSlot.Flask4, ItemSlot.Flask5],
+    requirements: { level: 8, strength: 0, dexterity: 0, intelligence: 0 },
+    implicitMods: ["Recovers 110 Life over 3.50 seconds"],
+    tags: ["flask", "life"]
+  },
+  {
+    category: ItemCategory.LifeFlask,
+    name: "Large Life Flask",
+    itemClass: "flask",
+    slot: [ItemSlot.Flask1, ItemSlot.Flask2, ItemSlot.Flask3, ItemSlot.Flask4, ItemSlot.Flask5],
+    requirements: { level: 16, strength: 0, dexterity: 0, intelligence: 0 },
+    implicitMods: ["Recovers 200 Life over 3.50 seconds"],
+    tags: ["flask", "life"]
+  },
+  
+  // mana flasks
+  {
     category: ItemCategory.ManaFlask,
     name: "Small Mana Flask", 
     itemClass: "flask",
@@ -326,6 +566,118 @@ export const FLASK_BASE_TYPES: BaseItemType[] = [
     requirements: { level: 1, strength: 0, dexterity: 0, intelligence: 0 },
     implicitMods: ["Recovers 40 Mana over 2.50 seconds"],
     tags: ["flask", "mana"]
+  },
+  {
+    category: ItemCategory.ManaFlask,
+    name: "Medium Mana Flask",
+    itemClass: "flask",
+    slot: [ItemSlot.Flask1, ItemSlot.Flask2, ItemSlot.Flask3, ItemSlot.Flask4, ItemSlot.Flask5],
+    requirements: { level: 8, strength: 0, dexterity: 0, intelligence: 0 },
+    implicitMods: ["Recovers 70 Mana over 2.50 seconds"],
+    tags: ["flask", "mana"]
+  },
+  {
+    category: ItemCategory.ManaFlask,
+    name: "Large Mana Flask",
+    itemClass: "flask",
+    slot: [ItemSlot.Flask1, ItemSlot.Flask2, ItemSlot.Flask3, ItemSlot.Flask4, ItemSlot.Flask5],
+    requirements: { level: 16, strength: 0, dexterity: 0, intelligence: 0 },
+    implicitMods: ["Recovers 120 Mana over 2.50 seconds"],
+    tags: ["flask", "mana"]
+  },
+  
+  // hybrid flasks
+  {
+    category: ItemCategory.HybridFlask,
+    name: "Small Hybrid Flask",
+    itemClass: "flask",
+    slot: [ItemSlot.Flask1, ItemSlot.Flask2, ItemSlot.Flask3, ItemSlot.Flask4, ItemSlot.Flask5],
+    requirements: { level: 7, strength: 0, dexterity: 0, intelligence: 0 },
+    implicitMods: ["Recovers 60 Life and 30 Mana over 3.00 seconds"],
+    tags: ["flask", "hybrid"]
+  },
+  {
+    category: ItemCategory.HybridFlask,
+    name: "Medium Hybrid Flask",
+    itemClass: "flask",
+    slot: [ItemSlot.Flask1, ItemSlot.Flask2, ItemSlot.Flask3, ItemSlot.Flask4, ItemSlot.Flask5],
+    requirements: { level: 18, strength: 0, dexterity: 0, intelligence: 0 },
+    implicitMods: ["Recovers 120 Life and 60 Mana over 3.00 seconds"],
+    tags: ["flask", "hybrid"]
+  },
+  
+  // utility flasks
+  {
+    category: ItemCategory.UtilityFlask,
+    name: "Quicksilver Flask",
+    itemClass: "flask",
+    slot: [ItemSlot.Flask1, ItemSlot.Flask2, ItemSlot.Flask3, ItemSlot.Flask4, ItemSlot.Flask5],
+    requirements: { level: 4, strength: 0, dexterity: 0, intelligence: 0 },
+    implicitMods: ["40% increased Movement Speed"],
+    tags: ["flask", "utility", "speed"]
+  },
+  {
+    category: ItemCategory.UtilityFlask,
+    name: "Granite Flask",
+    itemClass: "flask",
+    slot: [ItemSlot.Flask1, ItemSlot.Flask2, ItemSlot.Flask3, ItemSlot.Flask4, ItemSlot.Flask5],
+    requirements: { level: 27, strength: 0, dexterity: 0, intelligence: 0 },
+    implicitMods: ["+3000 to Armour"],
+    tags: ["flask", "utility", "armor"]
+  },
+  {
+    category: ItemCategory.UtilityFlask,
+    name: "Jade Flask",
+    itemClass: "flask",
+    slot: [ItemSlot.Flask1, ItemSlot.Flask2, ItemSlot.Flask3, ItemSlot.Flask4, ItemSlot.Flask5],
+    requirements: { level: 27, strength: 0, dexterity: 0, intelligence: 0 },
+    implicitMods: ["+3000 to Evasion Rating"],
+    tags: ["flask", "utility", "evasion"]
+  },
+  {
+    category: ItemCategory.UtilityFlask,
+    name: "Quartz Flask",
+    itemClass: "flask",
+    slot: [ItemSlot.Flask1, ItemSlot.Flask2, ItemSlot.Flask3, ItemSlot.Flask4, ItemSlot.Flask5],
+    requirements: { level: 27, strength: 0, dexterity: 0, intelligence: 0 },
+    implicitMods: ["10% chance to Dodge Attacks", "Phasing"],
+    tags: ["flask", "utility", "dodge"]
+  }
+];
+
+// jewel base types
+export const JEWEL_BASE_TYPES: BaseItemType[] = [
+  {
+    category: ItemCategory.CrimsonJewel,
+    name: "Crimson Jewel",
+    itemClass: "accessory",
+    slot: [], // jewels go in passive tree, not equipment slots
+    requirements: { level: 20, strength: 0, dexterity: 0, intelligence: 0 },
+    tags: ["jewel", "crimson"]
+  },
+  {
+    category: ItemCategory.ViridianJewel,
+    name: "Viridian Jewel",
+    itemClass: "accessory",
+    slot: [],
+    requirements: { level: 20, strength: 0, dexterity: 0, intelligence: 0 },
+    tags: ["jewel", "viridian"]
+  },
+  {
+    category: ItemCategory.CobaltJewel,
+    name: "Cobalt Jewel",
+    itemClass: "accessory",
+    slot: [],
+    requirements: { level: 20, strength: 0, dexterity: 0, intelligence: 0 },
+    tags: ["jewel", "cobalt"]
+  },
+  {
+    category: ItemCategory.PrismaticJewel,
+    name: "Prismatic Jewel",
+    itemClass: "accessory",
+    slot: [],
+    requirements: { level: 20, strength: 0, dexterity: 0, intelligence: 0 },
+    tags: ["jewel", "prismatic"]
   }
 ];
 
@@ -333,7 +685,8 @@ export const ALL_BASE_ITEM_TYPES = [
   ...WEAPON_BASE_TYPES,
   ...ARMOR_BASE_TYPES, 
   ...ACCESSORY_BASE_TYPES,
-  ...FLASK_BASE_TYPES
+  ...FLASK_BASE_TYPES,
+  ...JEWEL_BASE_TYPES
 ];
 
 export function getBaseItemTypesByCategory(category: ItemCategory): BaseItemType[] {
@@ -358,4 +711,8 @@ export function getAccessoryBaseTypes(): BaseItemType[] {
 
 export function getFlaskBaseTypes(): BaseItemType[] {
   return FLASK_BASE_TYPES;
+}
+
+export function getJewelBaseTypes(): BaseItemType[] {
+  return JEWEL_BASE_TYPES;
 }

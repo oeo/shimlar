@@ -1,328 +1,168 @@
 # shimlar architecture
 
-**important**: this document supersedes all previous architecture documents. if you find conflicting information elsewhere, this is the authoritative source.
-
 ## overview
 
-shimlar is a terminal-based arpg inspired by path of exile, built with:
+shimlar is a terminal-based arpg inspired by path of exile, transitioning to a web-based react client:
 - **runtime**: bun (not node.js)
 - **language**: typescript with strict typing
-- **ui framework**: ink v4 (react for terminals)
-- **architecture**: monorepo with 5 focused packages
-- **persistence**: json files initially, sqlite later
-- **multiplayer**: future consideration, not initial focus
+- **architecture**: monorepo with 4 focused packages
+- **persistence**: sqlite (dev) / postgresql (prod) with redis sessions
+- **api**: rest api server for react client
 
-## what this is not
+## current state (2025-01-24)
 
-**critical**: we are not building:
-- microservices architecture
-- redis pub/sub systems
-- kubernetes deployments
-- distributed systems
-- ranvier mud engine integration
-- complex authentication servers
-- separate chat/trade/game servers
-
-any documentation suggesting these approaches is **obsolete**.
+- **cli removed**: terminal interface deprecated in favor of web client
+- **api ready**: rest endpoints for player/session management
+- **game logic complete**: 278 passing tests for all core mechanics
+- **react client next**: ready for web interface development
 
 ## monorepo structure
 
 ```
 shimlar/
 ├── packages/
-│   ├── core/        # game mechanics, no ui
-│   ├── engine/      # game systems, no ui
-│   ├── cli/         # terminal ui only
-│   ├── data/        # static game data
-│   └── server/      # future multiplayer
+│   ├── core/        # game mechanics (pure logic)
+│   ├── engine/      # state management & persistence
+│   ├── data/        # static game data & affixes
+│   └── server/      # rest api server
 ```
 
 ### package: @shimlar/core
 
-**purpose**: pure game logic with zero dependencies on ui or state management
+**purpose**: pure game logic with zero ui dependencies
 
 ```typescript
-// example structure
 core/src/
-├── entities/
-│   ├── Entity.ts         // base entity with component system
-│   └── Character.ts      // player character creation
-├── components/
+├── entities/             # entity system
+│   └── Entity.ts        
+├── components/           # entity components
 │   ├── HealthComponent.ts
 │   ├── StatsComponent.ts
 │   └── PositionComponent.ts
-├── combat/
-│   ├── CombatEngine.ts   // tick-based combat system
-│   ├── formulas.ts       // hit/damage calculations
-│   ├── DamageOverTime.ts // poison/ignite/bleed system
-│   └── CombatLog.ts      // detailed combat logging
-├── items/
-│   ├── BaseItemTypes.ts     // weapon/armor/accessory definitions
-│   ├── AffixSystem.ts       // prefix/suffix generation
-│   ├── ItemGeneration.ts    // complete item creation
-│   ├── Equipment.ts         // equipment slots and stat calculation
-│   └── LootGeneration.ts       // monster loot generation system
-├── character/
-│   ├── CharacterClass.ts // 7 character classes with stat distributions  
-│   └── Character.ts      // character creation and management
-├── zones/
-│   ├── Zone.ts           // zone/area definitions
-│   └── ZoneManager.ts    // zone management system
-├── events/
-│   ├── EventBus.ts       // game event system
-│   └── GameEvents.ts     // event type definitions
-├── entities/
-│   └── Entity.ts         // base entity with component system
-├── components/
-│   ├── HealthComponent.ts
-│   ├── StatsComponent.ts
-│   └── PositionComponent.ts
-└── types/
-    └── types.ts          // combat types
+├── combat/               # combat mechanics
+│   ├── CombatEngine.ts   # tick-based combat
+│   ├── formulas.ts       # damage calculations
+│   ├── DamageOverTime.ts # dot system
+│   └── CombatLog.ts      # combat logging
+├── items/                # item system
+│   ├── BaseItemTypes.ts  # 56 base item types
+│   ├── AffixSystem.ts    # prefix/suffix generation
+│   ├── ItemGeneration.ts # item creation
+│   ├── Equipment.ts      # 15 equipment slots
+│   └── LootGeneration.ts # monster drops
+├── character/            # character system
+│   ├── CharacterClass.ts # 7 classes
+│   └── Character.ts      
+├── zones/                # zone management
+│   ├── Zone.ts          
+│   └── ZoneManager.ts    
+└── events/               # event system
+    ├── EventBus.ts      
+    └── GameEvents.ts     
 ```
-
-**key principles**:
-- pure functions where possible
-- no side effects
-- fully unit tested
-- no external dependencies beyond types
 
 ### package: @shimlar/engine
 
-**purpose**: game loop, systems, and orchestration
+**purpose**: game state management and persistence
 
 ```typescript
 engine/src/
-├── systems/
-│   ├── CombatSystem.ts   // manages combat flow
-│   ├── LootSystem.ts     // handles drops
-│   └── MovementSystem.ts // position management
-├── zones/
-│   ├── Zone.ts           // zone/area class
-│   └── ZoneManager.ts    // zone transitions
-├── events/
-│   ├── EventBus.ts       // event system
-│   └── GameEvents.ts     // event definitions
 ├── state/
-│   ├── GameState.ts      // global game state
-│   └── StateManager.ts   // state persistence
-└── ai/
-    ├── AIBehavior.ts     // base ai class
-    └── behaviors/        // specific ai patterns
+│   ├── GameState.ts      # state types
+│   └── GameStore.ts      # zustand store
+└── persistence/
+    ├── GameStateRepository.ts  # database layer
+    └── types.ts             # serializable types
 ```
-
-**key principles**:
-- owns the game loop
-- manages all game systems
-- handles state persistence
-- coordinates between systems
-- no ui dependencies
-
-### package: @shimlar/cli
-
-**purpose**: terminal user interface using ink (react)
-
-```typescript
-cli/src/
-├── components/
-│   ├── views/           // full-screen views
-│   │   ├── Combat.tsx
-│   │   ├── Inventory.tsx
-│   │   └── MainMenu.tsx
-│   ├── ui/              // reusable components
-│   │   ├── Box.tsx
-│   │   ├── ProgressBar.tsx
-│   │   └── Button.tsx
-│   └── combat/          // combat-specific ui
-│       ├── CombatLog.tsx
-│       └── EnemyList.tsx
-├── hooks/
-│   ├── useGameState.ts
-│   └── useKeyboard.ts
-├── stores/
-│   └── uiStore.ts       // ui-only state
-└── index.tsx            // entry point
-```
-
-**key principles**:
-- presentation only
-- uses engine and core
-- manages ui state only
-- keyboard input handling
-- terminal constraints (80x24 minimum)
 
 ### package: @shimlar/data
 
-**purpose**: static game data in json format
+**purpose**: static game data
 
 ```
-data/src/
+data/
 ├── items/
-│   ├── affixes.json     // complete 11k+ line affix database
-│   ├── bases.json       // base item types (future)
-│   └── uniques.json     // unique items (future)
-├── monsters/
-│   ├── types.ts         // monster rarity definitions
-│   ├── archetypes.ts    // monster behavioral archetypes and factory functions
-│   └── monsters.ts         // cross-act monster registry and zone spawn tables
-├── skills/
-│   └── skills.json      // skill definitions
-└── zones/
-    └── zones.json       // zone data
+│   └── affixes.json     # 11k+ line affix database
+└── monsters/
+    ├── archetypes.ts    # monster behaviors
+    ├── monsters.ts      # monster registry
+    └── types.ts         # monster types
 ```
 
-### package: @shimlar/server (future)
+### package: @shimlar/server
 
-**purpose**: multiplayer support (not initial focus)
-- websocket communication
-- state synchronization
-- persistence layer
-- will be built after single-player is complete
+**purpose**: rest api for game clients
+
+```typescript
+server/src/
+└── index.ts            # bun server with cors
+```
+
+## api endpoints
+
+- `GET /api/players` - list all players
+- `POST /api/players` - create new player
+- `GET /api/players/:id` - get player data
+- `PUT /api/players/:id` - update player data
+- `GET /api/sessions/:id` - get session data
+- `PUT /api/sessions/:id` - update session data
+- `DELETE /api/sessions/:id` - end session
+- `GET /health` - server health check
 
 ## data flow
 
 ```
-User Input (keyboard)
+React Client
+    ↓ (rest api)
+Server (api layer)
     ↓
-CLI (ink components)
-    ↓
-Engine (game systems)
+Engine (state management)
     ↓
 Core (game logic)
     ↓
 Data (static content)
 ```
 
-## state management
+## game systems
 
-1. **game state**: managed by engine, persisted to json
-2. **ui state**: managed by cli with zustand
-3. **no global state**: each package manages its own state
-4. **save files**: json files in saves/ directory
+### item system
+- **56 base item types**: weapons, armor, accessories, flasks, jewels
+- **rarity tiers**: normal (78%), magic (20%), rare (1.9%), unique (0.1%)
+- **affix system**: level-gated prefix/suffix from 11k+ line database
+- **equipment slots**: 15 slots with stat aggregation
 
-## testing strategy
+### combat system
+- **tick-based**: 100ms resolution
+- **damage pipeline**: base → conversion → mitigation
+- **damage types**: physical, fire, cold, lightning, chaos
+- **defense mechanics**: armor, evasion, resistances, block
 
-- every game mechanic must have unit tests
-- use bun test with --bail flag
-- test files mirror source structure
-- minimum 80% coverage for game logic
-- no tests for ui components initially
+### character system
+- **7 classes**: marauder, ranger, witch, duelist, templar, shadow, scion
+- **attributes**: strength, dexterity, intelligence
+- **derived stats**: life, mana, accuracy, evasion
 
-## build and development
+### loot system
+- **monster archetypes**: physical, caster, ranged, mixed
+- **level scaling**: currency drops scale with monster level
+- **drop quantities**: based on monster rarity
+- **path of exile accuracy**: validated drop rates
 
-```bash
-# install dependencies
-bun install
+## testing
 
-# run development
-bun run dev
+- **278 passing tests** across all systems
+- **comprehensive coverage** for game mechanics
+- **path of exile validation** for loot/item systems
+- **bun test** with --bail flag
 
-# run tests
-bun test
+## next phase: react client
 
-# build for production
-bun run build
-```
-
-## scalability considerations
-
-the architecture supports future expansion to:
-- multiplayer via websocket server
-- persistent world via sqlite/postgres
-- web interface via xterm.js
-- mobile interface via react native
-
-but these are **not** initial goals.
-
-## why this architecture
-
-1. **separation of concerns**: game logic separate from ui
-2. **testability**: pure functions in core are easy to test
-3. **flexibility**: can swap ui without touching game logic
-4. **incremental development**: can build features in isolation
-5. **future-proof**: can add multiplayer without major refactor
-
-## common pitfalls to avoid
-
-1. don't add dependencies between packages that violate hierarchy
-2. don't put game logic in the cli package
-3. don't put ui code in the engine or core
-4. don't optimize prematurely
-5. don't add features not in the plan
-
-## item system architecture
-
-### item generation pipeline
-
-```
-1. select base item type → weapon/armor/accessory/flask
-2. determine item level → from zone/monster level  
-3. roll rarity → normal/magic/rare/unique
-4. generate affixes → based on rarity and item level
-5. calculate requirements → level + stat requirements
-6. create final item → with name, stats, and display
-```
-
-### affix system
-
-the affix system uses a comprehensive database with:
-- **30+ item categories** (weapons, armor types, jewelry)
-- **prefix pools** (offensive modifiers like damage)  
-- **suffix pools** (defensive modifiers like resistances)
-- **tier progression** (higher levels = better values)
-- **level requirements** (item level gates affix access)
-
-### equipment system
-
-- **15 equipment slots** including dual wield and 5 flask slots
-- **stat aggregation** combines all equipped item bonuses
-- **two-handed restrictions** prevent off-hand items with 2h weapons  
-- **item comparison** automatic upgrade/downgrade analysis
-- **requirements validation** level and attribute requirements
-
-### rarity distribution
-
-following path of exile mechanics:
-- **normal**: 78% chance, no affixes
-- **magic**: 20% chance, 1-2 affixes  
-- **rare**: 1.9% chance, 4-6 affixes
-- **unique**: 0.1% chance, fixed modifiers
-
-## monster & loot system architecture
-
-### monster archetype system
-
-simplified behavioral classification system:
-- **physical**: melee fighters, standard loot tables
-- **caster**: spellcasters, slight boost to currency drops  
-- **ranged**: archers, standard loot tables
-- **mixed**: balanced monsters, standard loot tables
-
-### monster registry system
-
-cross-act monster definitions using factory functions:
-- **define once, use everywhere** approach
-- **level-scaled monsters** avoid per-act redefinition
-- **zone spawn tables** for easy monster-to-area mapping
-- **archetype + subtype** classification (e.g., Physical Zombie, Caster Goatman)
-
-### loot generation system
-
-level and rarity-based loot generation:
-- **drop quantity scaling**: normal (0-2), magic (1-3), rare (2-5), unique (3-7) items
-- **currency scaling**: exponential weighting by monster level (chaos orbs rare at level 2, common at level 50)
-- **equipment generation**: uses existing item generation system with monster level as item level
-- **no smart loot**: completely unbiased drops, no player class favoritism
-- **async integration**: seamlessly integrated with combat engine for death events
-
-## for future developers
-
-if you're reading this and confused by other documentation that mentions:
-- microservices
-- redis
-- kubernetes  
-- ranvier
-- distributed systems
-- multiple servers
-
-**ignore them**. this document is the current truth. we're building a monolithic game that can be split later if needed, but starting simple.
+planned features:
+- next.js or vite setup
+- tailwind css styling
+- zustand client state
+- react query for server state
+- character sheet interface
+- inventory management
+- combat interface
+- zone progression

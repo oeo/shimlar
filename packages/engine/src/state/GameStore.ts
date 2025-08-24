@@ -90,6 +90,7 @@ export const useGameStore = create<GameStore>()(
         // create serializable state for persistence
         const serializableState: SerializablePlayerState = {
           ...playerState,
+          name,
           stats: baseStats,
           health: {
             current: 100,
@@ -188,11 +189,11 @@ export const useGameStore = create<GameStore>()(
         
         const serializableState: SerializablePlayerState = {
           ...player,
-          stats: statsComponent ? statsComponent.getAttributes() : { strength: 20, dexterity: 20, intelligence: 20 },
+          stats: statsComponent ? statsComponent.attributes : { strength: 20, dexterity: 20, intelligence: 20 },
           health: healthComponent ? {
-            current: healthComponent.getCurrentHealth(),
-            maximum: healthComponent.getMaxHealth(),
-            regenerationRate: healthComponent.getRegenerationRate()
+            current: healthComponent.current,
+            maximum: healthComponent.maximum,
+            regenerationRate: healthComponent.regeneration
           } : { current: 100, maximum: 100, regenerationRate: 2 },
           equipment: {}, // TODO: extract from equipment manager
           inventory: [], // TODO: extract from inventory

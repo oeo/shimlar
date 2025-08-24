@@ -92,7 +92,45 @@ current focus: react client development - ready for web application
   - [x] integration with combat engine (async loot generation on monster death)
   - [x] comprehensive unit tests with PoE validation (24 tests across 3 files, 114+ expect calls)
 
-## phase 3: react client foundation
+## phase 3: missing core game features
+- [x] extended item variety (2025-01-24)
+  - [x] add missing weapon types (maces, scepters, two-handed axes/maces)
+  - [x] add more base types per category (20+ variants)
+  - [x] add missing armor slots (more glove/boot variants)
+  - [x] add utility flask types (quicksilver, granite, jade, etc.)
+  - [x] add quivers for bow users
+  - [x] add jewel types (crimson, viridian, cobalt, prismatic)
+- [ ] unique items system
+  - [ ] unique item definitions with fixed affixes
+  - [ ] unique item generation from pool
+  - [ ] famous uniques (tabula rasa, headhunter, etc.)
+  - [ ] unique item drop weighting
+  - [ ] unit tests for unique generation
+- [ ] skill system
+  - [ ] skill gem structure (active/support)
+  - [ ] basic attack skills (default attack, cleave, ground slam)
+  - [ ] spell skills (fireball, frost bolt, arc)
+  - [ ] movement skills (leap slam, dash, flame dash)
+  - [ ] skill mana costs and cooldowns
+  - [ ] skill damage calculations
+  - [ ] skill level progression
+  - [ ] support gem mechanics (added damage, faster attacks, etc.)
+  - [ ] unit tests for skill calculations
+- [ ] class-specific mechanics
+  - [ ] starting skills per class
+  - [ ] class-specific passives (future)
+  - [ ] ascendancy mechanics (future)
+  - [ ] class quest rewards
+- [ ] integration tests
+  - [ ] full combat scenarios with multiple enemies
+  - [ ] boss battle simulations
+  - [ ] pvp battle tests
+  - [ ] loot drop integration tests
+  - [ ] equipment swap battle tests
+  - [ ] skill rotation tests
+  - [ ] damage type interaction tests
+
+## phase 4: react client foundation
 - [ ] react application setup
   - [ ] next.js or vite setup with typescript
   - [ ] tailwind css for styling
@@ -110,7 +148,7 @@ current focus: react client development - ready for web application
   - [ ] responsive design for desktop
   - [ ] loading states and error handling
 
-## phase 4: game interface implementation
+## phase 5: game interface implementation
 - [ ] character sheet view
   - [ ] stats display (life, mana, resistances)
   - [ ] equipment visualization
@@ -127,7 +165,7 @@ current focus: react client development - ready for web application
   - [ ] position indicators
   - [ ] enemy health/status
 
-## phase 5: game mechanics ui
+## phase 6: game mechanics ui
 - [ ] zone/area system
   - [ ] zone selection interface  
   - [ ] zone progression tracking
@@ -144,7 +182,7 @@ current focus: react client development - ready for web application
   - [ ] mana cost indicators
   - [ ] cooldown timers
 
-## phase 6: advanced features
+## phase 7: advanced features
 - [ ] crafting interface
   - [ ] currency orb usage
   - [ ] crafting bench ui
@@ -156,7 +194,7 @@ current focus: react client development - ready for web application
   - [ ] ascendancy selection
   - [ ] level-up notifications
 
-## phase 7: endgame systems
+## phase 8: endgame systems
 - [ ] map system interface
   - [ ] map selection and modifiers
   - [ ] atlas progression tracking
@@ -166,7 +204,7 @@ current focus: react client development - ready for web application
   - [ ] challenge tracking
   - [ ] league-specific interfaces
 
-## phase 8: multiplayer features
+## phase 9: multiplayer features
 - [ ] party system interface
   - [ ] party formation ui
   - [ ] shared experience display

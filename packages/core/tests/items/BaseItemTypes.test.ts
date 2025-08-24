@@ -9,6 +9,7 @@ import {
   ARMOR_BASE_TYPES,
   ACCESSORY_BASE_TYPES,
   FLASK_BASE_TYPES,
+  JEWEL_BASE_TYPES,
   getBaseItemTypesByCategory,
   getBaseItemTypeByName
 } from "../../src/items/BaseItemTypes";
@@ -26,7 +27,8 @@ describe("Base Item Types", () => {
       const expectedTotal = WEAPON_BASE_TYPES.length + 
                            ARMOR_BASE_TYPES.length + 
                            ACCESSORY_BASE_TYPES.length + 
-                           FLASK_BASE_TYPES.length;
+                           FLASK_BASE_TYPES.length +
+                           JEWEL_BASE_TYPES.length;
       
       expect(ALL_BASE_ITEM_TYPES.length).toBe(expectedTotal);
     });

@@ -53,7 +53,8 @@ export class GameStateRepository {
   
   // player persistence methods
   async savePlayer(playerState: SerializablePlayerState): Promise<void> {
-    const record: Partial<PlayerRecord> = {
+    const now = new Date().toISOString();
+    const record = {
       id: playerState.id,
       name: playerState.name,
       character_class: playerState.characterClass,
@@ -64,8 +65,8 @@ export class GameStateRepository {
       equipment_data: JSON.stringify(playerState.equipment),
       inventory_data: JSON.stringify(playerState.inventory),
       current_zone_id: playerState.currentZoneId,
-      updated_at: new Date(),
-      last_active_at: new Date()
+      updated_at: now,
+      last_active_at: now
     };
     
     // upsert player data
@@ -74,24 +75,33 @@ export class GameStateRepository {
         id, name, character_class, level, experience, 
         stats_data, health_data, equipment_data, inventory_data,
         current_zone_id, updated_at, last_active_at
-      ) VALUES (
-        $id, $name, $character_class, $level, $experience,
-        $stats_data, $health_data, $equipment_data, $inventory_data,
-        $current_zone_id, $updated_at, $last_active_at
-      )
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       ON CONFLICT(id) DO UPDATE SET
-        name = $name,
-        character_class = $character_class,
-        level = $level,
-        experience = $experience,
-        stats_data = $stats_data,
-        health_data = $health_data,
-        equipment_data = $equipment_data,
-        inventory_data = $inventory_data,
-        current_zone_id = $current_zone_id,
-        updated_at = $updated_at,
-        last_active_at = $last_active_at
-    `, record);
+        name = excluded.name,
+        character_class = excluded.character_class,
+        level = excluded.level,
+        experience = excluded.experience,
+        stats_data = excluded.stats_data,
+        health_data = excluded.health_data,
+        equipment_data = excluded.equipment_data,
+        inventory_data = excluded.inventory_data,
+        current_zone_id = excluded.current_zone_id,
+        updated_at = excluded.updated_at,
+        last_active_at = excluded.last_active_at
+    `, [
+      record.id,
+      record.name,
+      record.character_class,
+      record.level,
+      record.experience,
+      record.stats_data,
+      record.health_data,
+      record.equipment_data,
+      record.inventory_data,
+      record.current_zone_id,
+      record.updated_at,
+      record.last_active_at
+    ]);
   }
   
   async loadPlayer(playerId: string): Promise<SerializablePlayerState | null> {

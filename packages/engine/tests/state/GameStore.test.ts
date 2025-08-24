@@ -146,21 +146,24 @@ describe("GameStore", () => {
       expect(useGameStore.getState().isPaused).toBe(false);
     });
 
-    it("should track save time", () => {
+    it("should track save time", async () => {
       const store = useGameStore.getState();
       
       expect(store.lastSaved).toBe(0);
       
-      store.saveGame();
+      // initialize repository and create a player
+      store.initializeRepository(":memory:");
+      await store.createPlayer("test-hero", "marauder");
+      await store.savePlayer();
       
       const state = useGameStore.getState();
       expect(state.lastSaved).toBeGreaterThan(0);
     });
 
-    it("should reset game", () => {
+    it("should reset game", async () => {
       const store = useGameStore.getState();
       
-      store.createPlayer("TestHero", "marauder");
+      await store.createPlayer("TestHero", "marauder");
       store.startCombat(["enemy1"]);
       
       store.resetGame();
