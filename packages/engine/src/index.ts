@@ -2,10 +2,19 @@
 export const version = "0.0.1";
 
 // state management
-export { useGameStore, type GameStore, type GameActions } from "./state/GameStore";
+export { useGameStore, type GameStore, type GameActions, type ExtendedGameState } from "./state/GameStore";
 export { 
   type GameState, 
   type PlayerState, 
   type CombatState,
   createInitialGameState 
 } from "./state/GameState";
+
+// persistence
+export { GameStateRepository } from "./persistence/GameStateRepository";
+export type { 
+  SerializablePlayerState, 
+  GameSessionData, 
+  PlayerRecord, 
+  GameSessionRecord 
+} from "./persistence/types";

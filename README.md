@@ -1,6 +1,6 @@
 # shimlar
 
-terminal-based arpg inspired by path of exile, built with bun and typescript.
+arpg inspired by path of exile, built with bun and typescript. game logic ready for react client.
 
 ## installation
 
@@ -11,8 +11,8 @@ bun install
 ## development
 
 ```bash
-# run development server with hot reload
-bun run dev
+# run api server for react client
+bun run server
 
 # run all tests
 bun test
@@ -63,10 +63,33 @@ comprehensive monster and loot generation system:
 
 monorepo with focused packages:
 - `packages/core/` - pure game logic, no ui dependencies
-- `packages/engine/` - game systems and orchestration
-- `packages/cli/` - terminal ui using ink
+- `packages/engine/` - game systems, state management, and persistence
 - `packages/data/` - json data files (11k+ line affix database)
-- `packages/server/` - future multiplayer support
+- `packages/server/` - rest api server for react client
+
+## api server
+
+the server provides a rest api for managing game state:
+
+- `GET /api/players` - list all players
+- `POST /api/players` - create new player
+- `GET /api/players/:id` - get player data
+- `PUT /api/players/:id` - update player data
+- `GET /api/sessions/:id` - get session data (redis/postgres)
+- `PUT /api/sessions/:id` - update session data
+- `DELETE /api/sessions/:id` - end session
+
+## database setup
+
+game state supports both sqlite (development) and postgresql (production):
+
+```bash
+# development - uses sqlite automatically
+DB_PATH=./data/shimlar.db bun run server
+
+# production - set postgres connection
+DATABASE_URL=postgresql://user:pass@host:port/db bun run server
+```
 
 ## documentation
 

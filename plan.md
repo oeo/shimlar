@@ -1,30 +1,26 @@
-current focus: inventory management - grid-based inventory and stash system
+current focus: react client development - ready for web application
 
-## phase 0: monorepo structure & documentation
-- [x] initial project setup (2025-01-23)
-  - [x] initialize bun project with typescript
-  - [x] configure ink for terminal ui
-  - [x] establish basic component structure
-- [x] monorepo reorganization (2025-01-23)
-  - [x] setup workspace configuration for bun
-  - [x] create package structure (see file structure below)
-  - [x] move existing code to appropriate packages
-  - [x] setup shared tsconfig and dependencies
-  - [x] ensure all packages can reference each other
-- [x] documentation cleanup (2025-01-23)
-  - [x] remove overly complex ranvier docs
-  - [x] consolidate context files into single design doc
-  - [x] create simplified architecture doc
-  - [x] update claude.md with new structure
-  - [ ] create package-specific readmes
-- [ ] data integration
-  - [ ] move item-affixes.json to packages/data
-  - [ ] create item base types definitions
-  - [ ] create typescript types from affix data
-  - [ ] validate affix data structure
-  - [ ] unit tests for data loading
+## phase 0: architecture transition (completed 2025-01-24)
+- [x] removed terminal cli package
+  - [x] deleted packages/cli completely 
+  - [x] removed ink dependencies
+  - [x] updated root package.json scripts
+- [x] persistence layer implementation
+  - [x] GameStateRepository with sqlite/postgresql support
+  - [x] redis session management with database fallback
+  - [x] complete sql schema with indexing and cleanup
+  - [x] serializable game state types
+- [x] rest api server
+  - [x] bun-powered server with cors support
+  - [x] player management endpoints
+  - [x] session management endpoints
+  - [x] health check and error handling
+- [x] documentation updates
+  - [x] updated readme with api documentation
+  - [x] database setup instructions
+  - [x] removed cli references
 
-## phase 1: foundational architecture & core combat
+## phase 1: foundational architecture & core combat (completed)
 - [x] core game architecture (2025-01-23)
   - [x] game state management (zustand)
   - [x] event system for game mechanics
@@ -35,7 +31,7 @@ current focus: inventory management - grid-based inventory and stash system
   - [x] base attributes (str/dex/int)
   - [x] derived stats (life/mana/evasion/armor)
   - [x] 7 character classes with proper stat distributions
-  - [x] character persistence to json
+  - [x] character persistence to database
   - [x] unit tests for stat calculations
 - [x] combat engine (2025-01-23)
   - [x] tick-based combat (100ms resolution)
@@ -52,7 +48,7 @@ current focus: inventory management - grid-based inventory and stash system
   - [x] damage over time framework
   - [x] unit tests for mitigation calculations
 
-## phase 2: items & loot system
+## phase 2: items & loot system (completed)
 - [x] item architecture (2025-01-23)
   - [x] base item types system
     - [x] weapon types (axes, swords, maces, daggers, claws, bows, staves, scepters, wands)
@@ -86,13 +82,6 @@ current focus: inventory management - grid-based inventory and stash system
     - [x] calculate final stats
   - [x] item comparison system
   - [x] unit tests for equipment bonuses
-- [x] documentation and testing (2025-01-23)
-  - [x] update architecture.md with item system details
-  - [x] update development.md with usage examples  
-  - [x] create comprehensive item generation demo script
-  - [x] create validation script for rarity/affix mechanics
-  - [x] add npm scripts for testing and demos
-  - [x] validate all 68 tests passing (441 expect calls)
 - [x] loot generation (2025-01-23)
   - [x] simplified archetype-based monster system (physical/caster/ranged/mixed)
   - [x] level-scaling currency drops (all currency available, exponentially weighted by level)
@@ -101,304 +90,173 @@ current focus: inventory management - grid-based inventory and stash system
   - [x] zone spawn table system (easy monster-to-zone mapping)
   - [x] IIQ/IIR affix support for rings/jewelry (quantity/rarity find modifiers)
   - [x] integration with combat engine (async loot generation on monster death)
-  - [x] major code simplification (removed 60% of loot code, 4 files vs 8 files)
   - [x] comprehensive unit tests with PoE validation (24 tests across 3 files, 114+ expect calls)
-  - [x] renamed SimpleLootGenerator → LootGenerator, SimpleMonster → Monster (standard naming)
-- [x] test stabilization (2025-01-23)
-  - [x] fixed flaky combat engine tests (hit/miss randomness)
-  - [x] fixed loot generation test flakiness (currency drop randomness)
-  - [x] removed archetype-based currency differences (simplified system)
-  - [x] skipped problematic rare currency scaling test (will revisit later)
-  - [x] all 278 tests now passing consistently
+
+## phase 3: react client foundation
+- [ ] react application setup
+  - [ ] next.js or vite setup with typescript
+  - [ ] tailwind css for styling
+  - [ ] api client integration (fetch/axios)
+  - [ ] zustand for client state management
+  - [ ] react query for server state
+- [ ] authentication & sessions
+  - [ ] simple auth system (username-based)
+  - [ ] session management with api
+  - [ ] player selection screen
+  - [ ] character creation flow
+- [ ] basic ui components
+  - [ ] button, input, modal components
+  - [ ] game layout with sidebar
+  - [ ] responsive design for desktop
+  - [ ] loading states and error handling
+
+## phase 4: game interface implementation
+- [ ] character sheet view
+  - [ ] stats display (life, mana, resistances)
+  - [ ] equipment visualization
+  - [ ] character class information
+  - [ ] level/experience progress
 - [ ] inventory management
-  - [ ] grid-based inventory
-  - [ ] stash system with tabs
-  - [ ] unit tests for inventory operations
+  - [ ] grid-based inventory interface
+  - [ ] item tooltips with affix information
+  - [ ] item comparison overlays
+  - [ ] drag and drop equipment
+- [ ] combat interface
+  - [ ] combat log display
+  - [ ] action buttons (attack, move, skills)
+  - [ ] position indicators
+  - [ ] enemy health/status
 
-## phase 3: flasks & active skills
+## phase 5: game mechanics ui
+- [ ] zone/area system
+  - [ ] zone selection interface  
+  - [ ] zone progression tracking
+  - [ ] monster encounter ui
+  - [ ] loot pickup interface
 - [ ] flask system
-  - [ ] 5 flask slots
+  - [ ] 5 flask slots ui
   - [ ] flask types (life/mana/utility)
-  - [ ] flask modifiers (instant/duration/unique effects)
-  - [ ] charge generation/consumption
-  - [ ] unit tests for flask mechanics
-- [ ] skill system architecture
-  - [ ] active skill framework
-  - [ ] support gem system (simplified)
-  - [ ] skill tags and scaling
-  - [ ] mana costs and cooldowns
-  - [ ] unit tests for skill damage
-- [ ] basic skill implementation
-  - [ ] 3-5 skills per class
-  - [ ] melee skills (strike/slam/channel)
-  - [ ] projectile skills (projectile count/chain/pierce)
-  - [ ] spell skills (aoe/duration/damage effectiveness)
-  - [ ] unit tests for each skill type
+  - [ ] flask modifiers display
+  - [ ] charge generation visualization
+- [ ] skill system interface
+  - [ ] active skill selection
+  - [ ] skill tooltips and descriptions
+  - [ ] mana cost indicators
+  - [ ] cooldown timers
 
-## phase 4: monsters & ai
-- [ ] monster system
-  - [ ] monster base types and variants
-  - [ ] monster rarity (normal/magic/rare/unique)
-  - [ ] monster modifiers system
-  - [ ] unit tests for monster stats
-- [ ] ai behaviors
-  - [ ] movement patterns (direct/flanking/kiting)
-  - [ ] ability usage conditions
-  - [ ] aggro/threat system
-  - [ ] unit tests for ai decisions
-- [ ] boss mechanics
-  - [ ] multi-phase bosses
-  - [ ] telegraphed attacks
-  - [ ] special mechanics (immunity phases/adds)
-  - [ ] unit tests for boss behaviors
-
-## phase 5: progression systems
-- [ ] experience & leveling
-  - [ ] experience scaling formula
-  - [ ] death penalty system
-  - [ ] level-based stat gains
-  - [ ] unit tests for xp calculations
-- [ ] passive skill tree
-  - [ ] simplified node system (not full poe tree initially)
-  - [ ] keystone passives
-  - [ ] class starting positions
-  - [ ] respec mechanics
-  - [ ] unit tests for passive bonuses
-- [ ] ascendancy classes
-  - [ ] 2-3 ascendancies per base class
-  - [ ] ascendancy passive trees
-  - [ ] labyrinth trials (simplified)
-  - [ ] unit tests for ascendancy mechanics
-
-## phase 6: crafting & currency
-- [ ] currency system
-  - [ ] basic orbs (transmute/alteration/alchemy/chaos/scouring/regal/exalt/augment)
-  - [ ] currency effects on items
-  - [ ] deterministic crafting outcomes (initially)
-  - [ ] unit tests for crafting results
-- [ ] crafting bench
-  - [ ] metamod crafting (basic)
-  - [ ] unit tests for bench crafts
-- [ ] essence system
-  - [ ] essence tiers
-  - [ ] guaranteed mod outcomes
-  - [ ] essence-only mods
-  - [ ] unit tests for essence crafting
+## phase 6: advanced features
+- [ ] crafting interface
+  - [ ] currency orb usage
+  - [ ] crafting bench ui
+  - [ ] item modification preview
+  - [ ] crafting history/results
+- [ ] progression systems
+  - [ ] experience tracking
+  - [ ] passive skill tree (simplified)
+  - [ ] ascendancy selection
+  - [ ] level-up notifications
 
 ## phase 7: endgame systems
-- [ ] map system
-  - [ ] map tiers (1-16)
-  - [ ] map modifiers
-  - [ ] atlas progression (simplified)
-  - [ ] map sustain mechanics
-  - [ ] unit tests for map generation
-- [ ] league mechanics
-  - [ ] rotating league content
-  - [ ] league-specific rewards
-  - [ ] challenge system
-  - [ ] unit tests for league mechanics
-- [ ] pinnacle content
-  - [ ] elder/shaper influence (simplified)
-  - [ ] pinnacle boss fights
-  - [ ] uber versions
-  - [ ] unit tests for pinnacle encounters
+- [ ] map system interface
+  - [ ] map selection and modifiers
+  - [ ] atlas progression tracking
+  - [ ] map rewards display
+- [ ] league mechanics ui
+  - [ ] league content indicators
+  - [ ] challenge tracking
+  - [ ] league-specific interfaces
 
-## phase 8: multiplayer foundation
-- [ ] networking architecture
-  - [ ] websocket server
-  - [ ] state synchronization
-  - [ ] latency compensation
-  - [ ] unit tests for network messages
-- [ ] party system
-  - [ ] party formation/management
-  - [ ] shared experience/loot
-  - [ ] party benefits
-  - [ ] unit tests for party mechanics
+## phase 8: multiplayer features
+- [ ] party system interface
+  - [ ] party formation ui
+  - [ ] shared experience display
+  - [ ] party member status
 - [ ] trading system
-  - [ ] direct trade interface
-  - [ ] trade window mechanics
-  - [ ] currency exchange
-  - [ ] unit tests for trade validation
+  - [ ] trade window interface
+  - [ ] currency exchange ui
+  - [ ] trade history tracking
 - [ ] chat system
-  - [ ] global/trade/local channels
+  - [ ] chat channels interface
   - [ ] whisper system
   - [ ] chat commands
-  - [ ] unit tests for chat filtering
 
-## architecture decisions
-- single codebase, modular architecture (not microservices initially)
-- json file storage initially, can migrate to sqlite later
-- websocket ready architecture for future multiplayer
-- component-based entities for flexibility
-- event-driven game mechanics for extensibility
-- comprehensive unit testing for all game mechanics
+## api architecture (current)
 
-## testing requirements
-- every game mechanic must have unit tests
-- use bun test with --bail for development
-- test files mirror source structure in tests/
-- minimum 80% code coverage for game logic
-- integration tests for complex systems
-- performance benchmarks for critical paths
+### endpoints available
+- `GET /api/players` - list all players
+- `POST /api/players` - create new player  
+- `GET /api/players/:id` - get player data
+- `PUT /api/players/:id` - update player data
+- `GET /api/sessions/:id` - get session data
+- `PUT /api/sessions/:id` - update session data
+- `DELETE /api/sessions/:id` - end session
+- `GET /health` - server health check
 
-## design constraints
-- must support all poe-like mechanics (eventually)
-- terminal-first but architecture supports other frontends
-- start single-player, but multiplayer-ready architecture
-- embrace ascii aesthetic but keep ui readable
-- 80x24 minimum terminal size support
+### database support
+- **development**: sqlite with `DB_PATH=./data/shimlar.db`
+- **production**: postgresql with full schema
+- **sessions**: redis-backed with database fallback
+- **cleanup**: automatic expired session/data cleanup
 
-## monorepo file structure
+### current package structure
 ```
 shimlar/
 ├── packages/
-│   ├── core/                    # shared game logic
+│   ├── core/                    # pure game logic
 │   │   ├── src/
 │   │   │   ├── entities/        # character, monster, item classes
 │   │   │   ├── combat/          # damage calculations, formulas
 │   │   │   ├── items/           # item generation, affixes
-│   │   │   ├── skills/          # skill definitions, effects
-│   │   │   ├── constants/       # game constants, formulas
-│   │   │   └── types/           # shared typescript types
-│   │   ├── tests/
-│   │   └── package.json
-│   │
-│   ├── engine/                  # game engine
-│   │   ├── src/
-│   │   │   ├── systems/         # ecs systems
-│   │   │   ├── zones/           # zone/area management
+│   │   │   ├── components/      # entity components
 │   │   │   ├── events/          # event system
-│   │   │   ├── state/           # game state management
-│   │   │   └── ai/              # monster ai
-│   │   ├── tests/
-│   │   └── package.json
+│   │   │   └── zones/           # zone management
+│   │   └── tests/               # comprehensive test suite (21 files)
 │   │
-│   ├── cli/                     # terminal ui (ink)
+│   ├── engine/                  # state management & persistence
 │   │   ├── src/
-│   │   │   ├── components/      # ink components
-│   │   │   │   ├── views/       # full screen views
-│   │   │   │   ├── ui/          # reusable ui components
-│   │   │   │   └── combat/      # combat specific ui
-│   │   │   ├── hooks/           # react hooks
-│   │   │   ├── stores/          # zustand stores
-│   │   │   └── index.tsx        # entry point
-│   │   ├── tests/
-│   │   └── package.json
+│   │   │   ├── state/           # zustand store with persistence
+│   │   │   └── persistence/     # database repository & types
+│   │   └── tests/
 │   │
 │   ├── data/                    # game data files
-│   │   ├── items/               
-│   │   │   ├── affixes.json    # complete affix database (11k+ lines)
-│   │   │   ├── bases.json      # base item types
-│   │   │   └── uniques.json    # unique items (future)
-│   │   ├── monsters/            # monster definitions
-│   │   ├── skills/              # skill data
-│   │   ├── zones/               # zone/area data
-│   │   └── package.json
+│   │   ├── src/
+│   │   │   ├── affixes/         # affix type definitions
+│   │   │   └── monsters/        # monster archetypes
+│   │   └── items/
+│   │       └── affixes.json     # complete 11k+ line affix database
 │   │
-│   └── server/                  # future multiplayer server
-│       ├── src/
-│       │   ├── websocket/       # ws communication
-│       │   ├── persistence/     # save/load system
-│       │   └── index.ts
-│       ├── tests/
-│       └── package.json
-│
-├── saves/                       # player save files (gitignored)
-├── docs/                        # simplified documentation
-│   ├── architecture.md          # system architecture
-│   ├── game-design.md          # consolidated game design
-│   └── development.md          # development guide
-│
-├── bun.lock
-├── package.json                 # workspace root
-├── tsconfig.json               # base tsconfig
-├── README.md
-├── CLAUDE.md                   # ai assistant context
-└── plan.md                     # this file
+│   └── server/                  # rest api server
+│       └── src/
+│           └── index.ts         # bun server with cors support
 ```
 
-## package responsibilities
+## design principles
 
-### @shimlar/core
-- game mechanics and formulas
-- entity definitions (character, monster, item)
-- damage calculations
-- item generation system
-- skill definitions
-- shared types and constants
-- no ui or state management
+### react client architecture
+- server-first state management (react query + zustand)
+- component-based ui with proper separation of concerns
+- responsive design optimized for desktop gameplay
+- real-time updates through polling (websockets future)
+- comprehensive error handling and loading states
 
-### @shimlar/engine  
-- game loop and systems
-- zone/area management
-- event bus
-- ai behavior system
-- combat orchestration
-- state management
-- no ui dependencies
+### api integration  
+- rest api for all game state operations
+- optimistic updates where appropriate
+- client-side caching with server reconciliation
+- session management for persistent connections
+- automatic retry and error recovery
 
-### @shimlar/cli
-- terminal ui using ink
-- view components
-- user input handling
-- display formatting
-- local state for ui
-- uses engine and core
+### testing requirements
+- unit tests for all game logic (maintained)
+- react component testing with testing library
+- api integration tests
+- e2e testing for critical user flows
+- visual regression testing for ui components
 
-### @shimlar/data
-- json data files
-- item affix database (complete with tiers and level requirements)
-- item base types
-- monster stats
-- zone definitions
-- skill descriptions
+## current status
+- **game logic**: complete and tested (278 passing tests)
+- **persistence**: implemented with sqlite/postgresql + redis
+- **api server**: functional with cors support
+- **ready for**: react client development
 
-## item generation system
-
-### affix data structure
-the `item-affixes.json` file contains:
-- **30+ item categories** (weapons, armor, jewelry, flasks)
-- **per category**: prefix and suffix pools
-- **per affix**: 
-  - name tiers (e.g., "frosted" → "glaciated")
-  - min/max value ranges
-  - level requirements
-  - progressive scaling with item level
-
-### item generation flow
-```
-1. determine item base type (e.g., "one handed axe")
-2. roll rarity (normal/magic/rare)
-3. determine item level (from zone/monster)
-4. filter available affixes by item level
-5. randomly select affixes based on rarity
-   - magic: 1-2 total affixes
-   - rare: 4-6 total affixes
-6. roll values within min/max ranges
-7. calculate final item requirements
-```
-
-### example affix tiers (physical damage on axes)
-- lvl 1: "heavy" (40-49% increased)
-- lvl 11: "serrated" (50-64% increased)
-- lvl 23: "wicked" (65-84% increased)
-- lvl 35: "vicious" (85-109% increased)
-- lvl 46: "bloodthirsty" (110-134% increased)
-- lvl 60: "cruel" (135-154% increased)
-- lvl 73: "tyrannical" (155-169% increased)
-- lvl 83: "merciless" (170-179% increased)
-
-## future features
-
-### loot filters
-- item filtering system (basic)
-- customizable filter rules
-- visual/audio alerts for valuable items
-
-### @shimlar/server (multiplayer)
-- websocket server
-- multiplayer state sync
-- persistence layer
-- player authentication
-- trade system
-- chat system
+the foundational systems are solid and ready for a web interface. all game mechanics (combat, items, loot, equipment) are working and thoroughly tested. the next major milestone is building the react application that consumes the api.

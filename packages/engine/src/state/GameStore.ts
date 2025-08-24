@@ -1,5 +1,5 @@
 /**
- * zustand store for game state management
+ * zustand store for game state management with persistence
  */
 
 import { create } from "zustand";
@@ -19,12 +19,22 @@ import {
   Zone,
   ZoneData
 } from "@shimlar/core";
+import { GameStateRepository } from "../persistence/GameStateRepository";
+import { SerializablePlayerState, GameSessionData } from "../persistence/types";
 
 export interface GameActions {
+  // persistence actions
+  initializeRepository: (dbPath: string, redisClient?: any) => void;
+  
   // player actions
-  createPlayer: (name: string, characterClass: string) => void;
-  loadPlayer: (playerData: PlayerState) => void;
-  updatePlayerPosition: (position: CombatPosition) => void;
+  createPlayer: (name: string, characterClass: string) => Promise<void>;
+  loadPlayer: (playerId: string) => Promise<boolean>;
+  savePlayer: () => Promise<void>;
+  
+  // session actions
+  startSession: (playerId: string) => Promise<string>;
+  endSession: () => Promise<void>;
+  updateSession: () => Promise<void>;
   
   // zone actions
   registerZones: (zones: ZoneData[]) => void;
@@ -38,20 +48,33 @@ export interface GameActions {
   // game actions
   pauseGame: () => void;
   resumeGame: () => void;
-  saveGame: () => void;
   resetGame: () => void;
 }
 
-export type GameStore = GameState & GameActions;
+export interface ExtendedGameState extends GameState {
+  repository?: GameStateRepository;
+  currentSessionId?: string;
+}
+
+export type GameStore = ExtendedGameState & GameActions;
 
 export const useGameStore = create<GameStore>()(
   devtools(
     (set, get) => ({
       ...createInitialGameState(),
+      repository: undefined,
+      currentSessionId: undefined,
       
-      // player actions
-      createPlayer: (name: string, characterClass: string) => {
+      // persistence setup
+      initializeRepository: (dbPath: string, redisClient?: any) => {
+        const repository = new GameStateRepository(dbPath, redisClient);
+        set({ repository });
+      },
+      
+      // player management with persistence
+      createPlayer: async (name: string, characterClass: string) => {
         const playerId = `player-${Date.now()}`;
+        const baseStats = getBaseStatsForClass(characterClass);
         
         // create player state
         const playerState: PlayerState = {
@@ -60,15 +83,27 @@ export const useGameStore = create<GameStore>()(
           characterClass,
           level: 1,
           experience: 0,
-          currentZoneId: "town", // starting zone
+          currentZoneId: "town",
           position: "melee"
+        };
+        
+        // create serializable state for persistence
+        const serializableState: SerializablePlayerState = {
+          ...playerState,
+          stats: baseStats,
+          health: {
+            current: 100,
+            maximum: 100,
+            regenerationRate: 2
+          },
+          equipment: {},
+          inventory: [],
+          createdAt: Date.now(),
+          lastActiveAt: Date.now()
         };
         
         // create player entity
         const playerEntity = new Entity(playerId, "player");
-        
-        // add components based on class
-        const baseStats = getBaseStatsForClass(characterClass);
         const statsComponent = new StatsComponent(1, baseStats);
         const derivedStats = statsComponent.getDerivedStats();
         
@@ -77,10 +112,15 @@ export const useGameStore = create<GameStore>()(
           .addComponent(new HealthComponent(derivedStats.life, 2))
           .addComponent(new PositionComponent(CombatPosition.MELEE));
         
-        // set event bus on entity
         playerEntity.setEventBus(get().eventBus);
         
-        // emit player created event
+        // save to database
+        const { repository } = get();
+        if (repository) {
+          await repository.savePlayer(serializableState);
+        }
+        
+        // emit event
         get().eventBus.emitSync("character.created", {
           characterId: playerId,
           name,
@@ -94,35 +134,128 @@ export const useGameStore = create<GameStore>()(
         });
       },
       
-      loadPlayer: (playerData: PlayerState) => {
-        // reconstruct player entity from saved data
-        const playerEntity = new Entity(playerData.id, "player");
-        // TODO: reconstruct components from saved data
+      loadPlayer: async (playerId: string): Promise<boolean> => {
+        const { repository } = get();
+        if (!repository) return false;
         
-        set({
-          player: playerData,
+        try {
+          const playerData = await repository.loadPlayer(playerId);
+          if (!playerData) return false;
+          
+          // convert to game state
+          const playerState: PlayerState = {
+            id: playerData.id,
+            name: playerData.name,
+            characterClass: playerData.characterClass,
+            level: playerData.level,
+            experience: playerData.experience,
+            currentZoneId: playerData.currentZoneId,
+            currentZoneInstanceId: playerData.currentZoneInstanceId,
+            position: playerData.position
+          };
+          
+          // reconstruct entity from saved data
+          const playerEntity = new Entity(playerData.id, "player");
+          const statsComponent = new StatsComponent(playerData.level, playerData.stats);
+          const derivedStats = statsComponent.getDerivedStats();
+          
           playerEntity
-        });
+            .addComponent(statsComponent)
+            .addComponent(new HealthComponent(playerData.health.current, playerData.health.regenerationRate, playerData.health.maximum))
+            .addComponent(new PositionComponent(CombatPosition.MELEE));
+          
+          playerEntity.setEventBus(get().eventBus);
+          
+          set({
+            player: playerState,
+            playerEntity
+          });
+          
+          return true;
+        } catch (error) {
+          console.error("failed to load player:", error);
+          return false;
+        }
       },
       
-      updatePlayerPosition: (position: CombatPosition) => {
-        const { player, playerEntity } = get();
-        if (!player || !playerEntity) return;
+      savePlayer: async () => {
+        const { player, playerEntity, repository } = get();
+        if (!player || !playerEntity || !repository) return;
         
-        const posComponent = playerEntity.getComponent<PositionComponent>("position");
-        if (posComponent) {
-          posComponent.moveTo(position);
+        // extract current state from entity components
+        const statsComponent = playerEntity.getComponent<StatsComponent>("stats");
+        const healthComponent = playerEntity.getComponent<HealthComponent>("health");
+        
+        const serializableState: SerializablePlayerState = {
+          ...player,
+          stats: statsComponent ? statsComponent.getAttributes() : { strength: 20, dexterity: 20, intelligence: 20 },
+          health: healthComponent ? {
+            current: healthComponent.getCurrentHealth(),
+            maximum: healthComponent.getMaxHealth(),
+            regenerationRate: healthComponent.getRegenerationRate()
+          } : { current: 100, maximum: 100, regenerationRate: 2 },
+          equipment: {}, // TODO: extract from equipment manager
+          inventory: [], // TODO: extract from inventory
+          createdAt: Date.now(), // TODO: preserve original creation time
+          lastActiveAt: Date.now()
+        };
+        
+        await repository.savePlayer(serializableState);
+        set({ lastSaved: Date.now() });
+      },
+      
+      // session management
+      startSession: async (playerId: string): Promise<string> => {
+        const sessionId = `session-${playerId}-${Date.now()}`;
+        const { repository, currentZone } = get();
+        
+        if (repository) {
+          const sessionData: GameSessionData = {
+            playerId,
+            sessionId,
+            currentZoneId: get().player?.currentZoneId || "town",
+            currentZoneInstanceId: currentZone?.getInstanceId(),
+            isInCombat: !!get().combat?.active,
+            lastActivity: Date.now()
+          };
+          
+          await repository.saveSession(sessionData);
         }
         
-        set({
-          player: {
-            ...player,
-            position: position as any
-          }
-        });
+        set({ currentSessionId: sessionId });
+        return sessionId;
       },
       
-      // zone actions
+      endSession: async () => {
+        const { repository, currentSessionId } = get();
+        if (repository && currentSessionId) {
+          await repository.deleteSession(currentSessionId);
+        }
+        set({ currentSessionId: undefined });
+      },
+      
+      updateSession: async () => {
+        const { repository, currentSessionId, player, currentZone, combat } = get();
+        if (!repository || !currentSessionId || !player) return;
+        
+        const sessionData: GameSessionData = {
+          playerId: player.id,
+          sessionId: currentSessionId,
+          currentZoneId: player.currentZoneId,
+          currentZoneInstanceId: currentZone?.getInstanceId(),
+          isInCombat: !!combat?.active,
+          lastActivity: Date.now(),
+          combatState: combat ? {
+            enemies: combat.enemies,
+            currentTurn: combat.currentTurn,
+            playerActions: combat.playerActions
+          } : undefined
+        };
+        
+        await repository.saveSession(sessionData);
+      },
+      
+      // zone actions (unchanged)
       registerZones: (zones: ZoneData[]) => {
         get().zoneManager.registerZones(zones);
       },
@@ -131,22 +264,18 @@ export const useGameStore = create<GameStore>()(
         const { player, playerEntity, zoneManager, currentZone } = get();
         if (!player || !playerEntity) return;
         
-        // leave current zone if any
         if (currentZone) {
           currentZone.removeEntity(playerEntity.id);
         }
         
-        // get or create zone instance
         const newZone = zoneManager.getOrCreateZoneInstance(zoneId, player.id);
         if (!newZone) {
           console.error(`failed to enter zone: ${zoneId}`);
           return;
         }
         
-        // add player to new zone
         newZone.addEntity(playerEntity);
         
-        // update state
         set({
           currentZone: newZone,
           player: {
@@ -156,13 +285,15 @@ export const useGameStore = create<GameStore>()(
           }
         });
         
-        // emit zone entered event
         get().eventBus.emitSync("zone.entered", {
           zoneId,
           zoneName: newZone.name,
           characterId: player.id,
           monsterLevel: newZone.monsterLevel.min
         });
+        
+        // auto-update session
+        get().updateSession();
       },
       
       exitZone: () => {
@@ -170,13 +301,10 @@ export const useGameStore = create<GameStore>()(
         if (!currentZone || !playerEntity) return;
         
         currentZone.removeEntity(playerEntity.id);
-        
-        set({
-          currentZone: null
-        });
+        set({ currentZone: null });
       },
       
-      // combat actions
+      // combat actions (unchanged)
       startCombat: (enemyIds: string[]) => {
         const combatState: CombatState = {
           active: true,
@@ -186,16 +314,14 @@ export const useGameStore = create<GameStore>()(
         };
         
         set({ combat: combatState });
-        
-        get().eventBus.emitSync("combat.started", {
-          enemyIds
-        });
+        get().eventBus.emitSync("combat.started", { enemyIds });
+        get().updateSession(); // update session with combat state
       },
       
       endCombat: () => {
         set({ combat: null });
-        
         get().eventBus.emitSync("combat.ended", {});
+        get().updateSession(); // clear combat from session
       },
       
       // game actions
@@ -209,23 +335,9 @@ export const useGameStore = create<GameStore>()(
         get().eventBus.emitSync("game.resumed", {});
       },
       
-      saveGame: () => {
-        const state = get();
-        const saveData = {
-          player: state.player,
-          lastSaved: Date.now()
-        };
-        
-        // TODO: implement actual save to file
-        console.log("saving game:", saveData);
-        
-        set({ lastSaved: Date.now() });
-        get().eventBus.emitSync("game.saved", {});
-      },
-      
       resetGame: () => {
         const newState = createInitialGameState();
-        set(newState);
+        set({ ...newState, repository: get().repository }); // preserve repository
       }
     }),
     {
@@ -234,7 +346,7 @@ export const useGameStore = create<GameStore>()(
   )
 );
 
-// helper function to get base stats for character class
+// helper function unchanged
 function getBaseStatsForClass(characterClass: string) {
   const classStats: Record<string, any> = {
     marauder: { strength: 32, dexterity: 14, intelligence: 14 },
