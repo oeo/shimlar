@@ -1,6 +1,6 @@
 # shimlar
 
-arpg inspired by path of exile, built with bun and typescript. game logic ready for react client.
+arpg inspired by path of exile, built with bun and typescript. game logic with 330 tests.
 
 ## installation
 
@@ -31,8 +31,11 @@ bun test packages/core/tests/items/PoEAccuracy.test.ts
 # interactive demo of item generation
 bun run demo:items
 
-# comprehensive validation of item system (10k+ items)
+# validation of item system (10k+ items)
 bun run validate:items
+
+# visualize zone generation types with ascii maps
+bun run scripts/zone-demo.ts
 ```
 
 ### demo:items
@@ -52,12 +55,25 @@ tests the item generation system with thousands of items:
 
 ## loot system
 
-comprehensive monster and loot generation system:
+monster and loot generation system:
 - **monster archetypes**: physical/caster/ranged/mixed behavioral types
 - **cross-act registry**: define monsters once, use everywhere
 - **level scaling**: currency drops scale exponentially with monster level  
 - **path of exile accuracy**: chaos orbs 0.0-0.2% drop rate, proper rarity distribution
-- **comprehensive testing**: 24+ tests validating poe mechanics across 3 test files
+- **testing**: 24+ tests validating poe mechanics across 3 test files
+
+## zone system
+
+dynamic zone generation system for text-based gameplay:
+- **procedural generation**: 5 generator types (linear, cave, dungeon, maze, open)
+- **text-based navigation**: grid movement with ascii map visualization 
+- **dynamic spawns**: procedural monster placement with smart distribution
+- **zone templates**: 10 predefined zones across 5 acts (levels 1-60)
+- **waypoint discovery**: unlock waypoints by exploration, not progress
+- **town safety**: towns are safe zones with npc vendors, no monsters or hazards
+- **testing**: 66 tests validating generation, spawns, and mechanics
+
+try the zone demo: `bun run scripts/zone-demo.ts`
 
 ## project structure
 
@@ -90,6 +106,15 @@ DB_PATH=./data/shimlar.db bun run server
 # production - set postgres connection
 DATABASE_URL=postgresql://user:pass@host:port/db bun run server
 ```
+
+## testing
+
+game logic validated with 330 tests across 24 files:
+- **combat system**: tick-based combat, damage calculations, dot mechanics
+- **item system**: generation, equipment, affixes, path of exile accuracy
+- **zone system**: procedural generation, monster spawns, town safety
+- **character system**: 7 classes, stats, leveling, components
+- **core architecture**: entity system, event bus, persistence
 
 ## documentation
 

@@ -18,6 +18,35 @@ export { PositionComponent, CombatPosition } from "./components/PositionComponen
 export { Zone, type ZoneData, type MonsterPack } from "./zones/Zone";
 export { ZoneManager } from "./zones/ZoneManager";
 
+// enhanced zones
+export { 
+  type ZoneTemplate, 
+  type ZoneInstance, 
+  type ZoneGrid, 
+  type GridCell, 
+  type Position, 
+  type MonsterSpawn,
+  type CellType,
+  type CellFeature,
+  type ZoneType,
+  type GeneratorType,
+  type ZoneSize,
+  type MonsterDensity,
+  type LayoutComplexity,
+  type ZonePrerequisite,
+  type ZoneConnection,
+  type GenerationConfig
+} from "./zones/ZoneTypes";
+export { ZoneGenerator } from "./zones/ZoneGenerator";
+export { EnhancedZoneManager } from "./zones/EnhancedZoneManager";
+export { 
+  ZONE_TEMPLATES,
+  getZoneTemplate,
+  getZoneTemplatesByAct,
+  getTownZoneTemplates,
+  getBossZoneTemplates
+} from "./zones/ZoneTemplates";
+
 // character
 export { 
   type CharacterClass,

@@ -11,7 +11,7 @@ import {
 
 describe("Loot Validation - Path of Exile Mechanics", () => {
   describe("currency drop rates by monster level", () => {
-    it.skip("should follow poe exponential scaling for rare currency", async () => {
+    it("should follow poe exponential scaling for rare currency", async () => {
       const lowLevel = createPhysicalMonster("test_low", "Weak Zombie", MonsterSubtype.Zombie, 5);
       const midLevel = createPhysicalMonster("test_mid", "Veteran Orc", MonsterSubtype.Orc, 35);
       const highLevel = createPhysicalMonster("test_high", "Ancient Demon", MonsterSubtype.Demon, 65);
