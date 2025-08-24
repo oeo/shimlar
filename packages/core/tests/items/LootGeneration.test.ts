@@ -1,5 +1,5 @@
 import { describe, it, expect } from "bun:test";
-import { LootGenerator } from "../../src/items/LootGeneration";
+import { LootGenerator } from '../../items/LootGeneration';
 import { 
   MonsterArchetype, 
   MonsterSubtype, 
@@ -9,7 +9,7 @@ import {
   createRangedMonster,
   getMonster,
   getZoneMonsters
-} from "@shimlar/data/src/monsters";
+} from "@shimlar/data/monsters";
 
 describe("LootGeneration", () => {
   describe("basic monster loot generation", () => {

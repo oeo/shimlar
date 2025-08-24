@@ -1,6 +1,6 @@
 import { ItemRarity, generateItemFromBase } from "./ItemGeneration";
 import { BaseItemType, getBaseItemTypeByName, ALL_BASE_ITEM_TYPES } from "./BaseItemTypes";
-import { MonsterRarity, MonsterArchetype, Monster, archetypeLootModifiers } from "@shimlar/data/src/monsters";
+import { MonsterRarity, MonsterArchetype, Monster, archetypeLootModifiers } from "@shimlar/data/monsters";
 
 export interface LootDrop {
   type: "currency" | "equipment";

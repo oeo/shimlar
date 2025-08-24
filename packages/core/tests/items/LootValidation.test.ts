@@ -1,5 +1,5 @@
 import { describe, it, expect } from "bun:test";
-import { LootGenerator } from "../../src/items/LootGeneration";
+import { LootGenerator } from '../../items/LootGeneration';
 import { 
   createPhysicalMonster, 
   createCasterMonster,
@@ -7,7 +7,7 @@ import {
   MonsterSubtype,
   MonsterRarity,
   getMonster 
-} from "@shimlar/data/src/monsters";
+} from "@shimlar/data/monsters";
 
 describe("Loot Validation - Path of Exile Mechanics", () => {
   describe("currency drop rates by monster level", () => {

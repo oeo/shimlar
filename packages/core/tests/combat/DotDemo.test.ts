@@ -1,5 +1,5 @@
 import { describe, it, expect } from "bun:test";
-import { DotManager, DotApplications, DotType } from "../../src/combat/DamageOverTime";
+import { DotManager, DotApplications, DotType } from '../../combat/DamageOverTime';
 
 describe("DoT Demo: Enemy dies but player dies from poison later", () => {
   it("should demonstrate the classic PoE scenario", () => {

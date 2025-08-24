@@ -1,9 +1,9 @@
 import { describe, it, expect, beforeEach, afterEach } from "bun:test";
-import { CombatEngine } from "../../src/combat/CombatEngine";
-import { Entity } from "../../src/entities/Entity";
-import { HealthComponent } from "../../src/components/HealthComponent";
-import { EventBus } from "../../src/events/EventBus";
-import { CombatAction } from "../../src/combat/types";
+import { CombatEngine } from '../../combat/CombatEngine';
+import { Entity } from '../../entities/Entity';
+import { HealthComponent } from '../../components/HealthComponent';
+import { EventBus } from '../../events/EventBus';
+import { CombatAction } from '../../combat/types';
 
 describe("CombatEngine", () => {
   let engine: CombatEngine;

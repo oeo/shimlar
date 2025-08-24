@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from "bun:test";
-import { HealthComponent } from "../../src/components/HealthComponent";
+import { HealthComponent } from '../../components/HealthComponent';
 
 describe("HealthComponent", () => {
   let health: HealthComponent;

@@ -1,11 +1,11 @@
 import { describe, it, expect, beforeAll } from "bun:test";
-import { ItemCategory } from "../../src/items/BaseItemTypes";
+import { ItemCategory } from '../../items/BaseItemTypes';
 import {
   AffixType,
   affixData,
   getAvailableAffixes,
   rollRandomAffix
-} from "../../src/items/AffixSystem";
+} from '../../items/AffixSystem';
 
 describe("Affix System", () => {
   beforeAll(async () => {

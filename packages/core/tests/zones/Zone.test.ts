@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from "bun:test";
-import { Zone, ZoneData } from "../../src/zones/Zone";
-import { Entity } from "../../src/entities/Entity";
-import { EventBus } from "../../src/events/EventBus";
+import { Zone, ZoneData } from '../../zones/Zone';
+import { Entity } from '../../entities/Entity';
+import { EventBus } from '../../events/EventBus';
 
 describe("Zone", () => {
   let zone: Zone;

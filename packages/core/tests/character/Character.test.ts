@@ -1,8 +1,8 @@
 import { describe, it, expect, beforeEach } from "bun:test";
-import { Character, createCharacter } from "../../src/character/Character";
-import { HealthComponent } from "../../src/components/HealthComponent";
-import { StatsComponent } from "../../src/components/StatsComponent";
-import { PositionComponent } from "../../src/components/PositionComponent";
+import { Character, createCharacter } from '../../character/Character';
+import { HealthComponent } from '../../components/HealthComponent';
+import { StatsComponent } from '../../components/StatsComponent';
+import { PositionComponent } from '../../components/PositionComponent';
 
 describe("Character", () => {
   describe("character creation", () => {

@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from "bun:test";
-import { CombatLog } from "../../src/combat/CombatLog";
-import { CombatEvent, DamageType } from "../../src/combat/types";
+import { CombatLog } from '../../combat/CombatLog';
+import { CombatEvent, DamageType } from '../../combat/types';
 
 describe("CombatLog", () => {
   let log: CombatLog;

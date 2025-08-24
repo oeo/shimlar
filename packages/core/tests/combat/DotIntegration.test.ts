@@ -1,9 +1,9 @@
 import { describe, it, expect, beforeEach, afterEach } from "bun:test";
-import { CombatEngine } from "../../src/combat/CombatEngine";
-import { Entity } from "../../src/entities/Entity";
-import { HealthComponent } from "../../src/components/HealthComponent";
-import { EventBus } from "../../src/events/EventBus";
-import { DotApplications, DotType } from "../../src/combat/DamageOverTime";
+import { CombatEngine } from '../../combat/CombatEngine';
+import { Entity } from '../../entities/Entity';
+import { HealthComponent } from '../../components/HealthComponent';
+import { EventBus } from '../../events/EventBus';
+import { DotApplications, DotType } from '../../combat/DamageOverTime';
 
 describe("DoT Integration with Combat Engine", () => {
   let engine: CombatEngine;

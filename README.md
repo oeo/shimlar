@@ -1,6 +1,6 @@
 # shimlar
 
-arpg inspired by path of exile, built with bun and typescript. game logic with 330 tests.
+ARPG inspired by Path of Exile, built with Bun and TypeScript. Features a REST API server with comprehensive game mechanics.
 
 ## installation
 
@@ -11,18 +11,14 @@ bun install
 ## development
 
 ```bash
-# run api server for react client
+# run api server
 bun run server
 
 # run all tests
 bun test
 
-# run item system tests specifically
+# run item system tests
 bun run test:items
-
-# run loot validation tests (path of exile accuracy)
-bun test packages/core/tests/items/LootValidation.test.ts
-bun test packages/core/tests/items/PoEAccuracy.test.ts
 ```
 
 ## item system scripts
@@ -78,47 +74,42 @@ try the zone demo: `bun run scripts/zone-demo.ts`
 ## project structure
 
 monorepo with focused packages:
-- `packages/core/` - pure game logic, no ui dependencies
-- `packages/engine/` - game systems, state management, and persistence
-- `packages/data/` - json data files (11k+ line affix database)
-- `packages/server/` - rest api server for react client
+- `packages/core/` - pure game logic (flat structure)
+- `packages/engine/` - state management and persistence  
+- `packages/data/` - static game data (11k+ line affix database)
+- `packages/server/` - REST API server
 
 ## api server
 
-the server provides a rest api for managing game state:
+rest api for managing game state:
 
 - `GET /api/players` - list all players
 - `POST /api/players` - create new player
 - `GET /api/players/:id` - get player data
 - `PUT /api/players/:id` - update player data
-- `GET /api/sessions/:id` - get session data (redis/postgres)
-- `PUT /api/sessions/:id` - update session data
-- `DELETE /api/sessions/:id` - end session
+- `GET /health` - server health check
 
-## database setup
-
-game state supports both sqlite (development) and postgresql (production):
+## configuration
 
 ```bash
-# development - uses sqlite automatically
+# development (sqlite)
 DB_PATH=./data/shimlar.db bun run server
 
-# production - set postgres connection
+# production (postgresql)  
 DATABASE_URL=postgresql://user:pass@host:port/db bun run server
 ```
 
 ## testing
 
-game logic validated with 330 tests across 24 files:
-- **combat system**: tick-based combat, damage calculations, dot mechanics
-- **item system**: generation, equipment, affixes, path of exile accuracy
-- **zone system**: procedural generation, monster spawns, town safety
-- **character system**: 7 classes, stats, leveling, components
-- **core architecture**: entity system, event bus, persistence
+330 tests across 24 files validate all game mechanics:
+- combat system with damage calculations and dot mechanics
+- item generation with Path of Exile accuracy
+- zone system with procedural generation
+- character classes and attribute systems
 
 ## documentation
 
-- `plan.md` - project roadmap and completed features  
-- `docs/architecture.md` - system design and package structure
-- `docs/development.md` - coding standards and workflow guide
-- `CLAUDE.md` - ai assistant context
+- `plan.md` - current roadmap and completed features
+- `docs/architecture.md` - system design and package structure  
+- `docs/development.md` - coding standards and workflow
+- `docs/game-design.md` - core game mechanics specification

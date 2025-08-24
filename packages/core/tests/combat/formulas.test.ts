@@ -9,8 +9,8 @@ import {
   applyMitigation,
   calculateAttackResult,
   createDefaultCombatStats
-} from "../../src/combat/formulas";
-import { DamageType, DamageAmount } from "../../src/combat/types";
+} from '../../combat/formulas';
+import { DamageType, DamageAmount } from '../../combat/types';
 
 describe("combat formulas", () => {
   describe("hit chance calculation", () => {

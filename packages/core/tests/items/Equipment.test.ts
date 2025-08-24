@@ -1,8 +1,8 @@
 import { describe, it, expect, beforeAll } from "bun:test";
-import { ItemSlot, WeaponType, getBaseItemTypeByName } from "../../src/items/BaseItemTypes";
-import { ItemRarity, generateItemFromBase } from "../../src/items/ItemGeneration";
-import { affixData } from "../../src/items/AffixSystem";
-import { EquipmentManager, compareItems } from "../../src/items/Equipment";
+import { ItemSlot, WeaponType, getBaseItemTypeByName } from '../../items/BaseItemTypes';
+import { ItemRarity, generateItemFromBase } from '../../items/ItemGeneration';
+import { affixData } from '../../items/AffixSystem';
+import { EquipmentManager, compareItems } from '../../items/Equipment';
 
 describe("Equipment System", () => {
   beforeAll(async () => {

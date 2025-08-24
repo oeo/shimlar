@@ -1,8 +1,8 @@
 import { describe, it, expect, beforeEach } from "bun:test";
-import { Entity } from "../../src/entities/Entity";
-import { HealthComponent } from "../../src/components/HealthComponent";
-import { StatsComponent } from "../../src/components/StatsComponent";
-import { EventBus } from "../../src/events/EventBus";
+import { Entity } from '../../entities/Entity';
+import { HealthComponent } from '../../components/HealthComponent';
+import { StatsComponent } from '../../components/StatsComponent';
+import { EventBus } from '../../events/EventBus';
 
 describe("Entity", () => {
   let entity: Entity;

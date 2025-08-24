@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from "bun:test";
-import { DotManager, DotType, DotApplications } from "../../src/combat/DamageOverTime";
-import { DamageType } from "../../src/combat/types";
+import { DotManager, DotType, DotApplications } from '../../combat/DamageOverTime';
+import { DamageType } from '../../combat/types';
 
 describe("DamageOverTime", () => {
   let dotManager: DotManager;

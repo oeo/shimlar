@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from "bun:test";
-import { useGameStore } from "../../src/state/GameStore";
+import { useGameStore } from "../../state/GameStore";
 import { ZoneData } from "@shimlar/core";
 
 describe("GameStore", () => {

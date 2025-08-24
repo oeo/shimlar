@@ -3,9 +3,9 @@
  */
 
 import { describe, test, expect, beforeEach } from 'bun:test';
-import { EnhancedZoneManager } from '../../src/zones/EnhancedZoneManager';
-import { ZoneTemplate } from '../../src/zones/ZoneTypes';
-import { EventBus } from '../../src/events/EventBus';
+import { EnhancedZoneManager } from '../../zones/EnhancedZoneManager';
+import { ZoneTemplate } from '../../zones/ZoneTypes';
+import { EventBus } from '../../events/EventBus';
 
 const mockTemplate: ZoneTemplate = {
   id: 'test_zone',

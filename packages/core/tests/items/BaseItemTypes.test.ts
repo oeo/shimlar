@@ -12,7 +12,7 @@ import {
   JEWEL_BASE_TYPES,
   getBaseItemTypesByCategory,
   getBaseItemTypeByName
-} from "../../src/items/BaseItemTypes";
+} from '../../items/BaseItemTypes';
 
 describe("Base Item Types", () => {
   describe("base item type arrays", () => {

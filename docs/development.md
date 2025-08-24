@@ -43,9 +43,9 @@ cat plan.md | grep "current focus"
 every feature needs tests:
 
 ```typescript
-// packages/core/tests/items/UniqueItems.test.ts
+// packages/core/tests/items/UniqueItems.test.ts  
 import { describe, it, expect } from "bun:test";
-import { generateUniqueItem } from "../../src/items/UniqueItems";
+import { generateUniqueItem } from "../../items/UniqueItems";
 
 describe("unique item generation", () => {
   it("should create tabula rasa with correct properties", () => {
@@ -62,7 +62,7 @@ describe("unique item generation", () => {
 implement in the appropriate package:
 
 ```typescript
-// packages/core/src/items/UniqueItems.ts
+// packages/core/items/UniqueItems.ts
 export function generateUniqueItem(uniqueId: string): Item {
   const unique = UNIQUE_ITEMS.get(uniqueId);
   if (!unique) throw new Error(`Unknown unique: ${uniqueId}`);
@@ -96,10 +96,10 @@ mark completed items in plan.md:
 
 ```
 packages/
-├── core/     # pure game logic, no dependencies
-├── engine/   # state management, uses core
-├── data/     # json data files
-└── server/   # api server, uses engine and core
+├── core/     # pure game logic, no dependencies (flat structure)
+├── engine/   # state management, uses core (flat structure)
+├── data/     # static data files (flat structure)
+└── server/   # api server, uses engine and core (flat structure)
 ```
 
 ### import rules
@@ -248,7 +248,7 @@ const loot = await LootGenerator.generateLoot(zombie);
 ### adding endpoints
 
 ```typescript
-// packages/server/src/index.ts
+// packages/server/index.ts
 server.get("/api/items/:id", async (req) => {
   const item = await repository.getItem(req.params.id);
   return Response.json(item);
@@ -258,7 +258,7 @@ server.get("/api/items/:id", async (req) => {
 ### database operations
 
 ```typescript
-// packages/engine/src/persistence/GameStateRepository.ts
+// packages/engine/persistence/GameStateRepository.ts
 async getItem(id: string): Promise<Item> {
   const result = await this.db.query(
     "SELECT * FROM items WHERE id = ?",
@@ -303,8 +303,8 @@ if you're an ai assistant working on this project:
 5. **update plan.md** - mark completed work
 
 current state:
-- game logic: 330 tests across 24 files
+- **330 tests across 24 files** validating all game mechanics
 - zone system: procedural generation with 5 algorithms, safe towns with npcs
 - item system: path of exile-accurate generation with 11k+ affix database
 - combat system: tick-based combat with dot mechanics and detailed logging
-- api server: rest endpoints for player/session management
+- api server: rest endpoints for player management

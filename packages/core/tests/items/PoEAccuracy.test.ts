@@ -1,11 +1,11 @@
 import { describe, it, expect } from "bun:test";
-import { LootGenerator } from "../../src/items/LootGeneration";
+import { LootGenerator } from '../../items/LootGeneration';
 import { 
   createPhysicalMonster, 
   createCasterMonster, 
   MonsterSubtype,
   MonsterRarity 
-} from "@shimlar/data/src/monsters";
+} from "@shimlar/data/monsters";
 
 describe("Path of Exile Accuracy Tests", () => {
   describe("currency drop rates match PoE expectations", () => {

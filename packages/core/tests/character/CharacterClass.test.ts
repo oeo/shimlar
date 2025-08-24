@@ -7,7 +7,7 @@ import {
   calculateMaxMana,
   calculateEvasion,
   calculateAccuracy
-} from "../../src/character/CharacterClass";
+} from '../../character/CharacterClass';
 
 describe("CharacterClass", () => {
   describe("class definitions", () => {

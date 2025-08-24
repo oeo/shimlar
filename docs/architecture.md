@@ -9,7 +9,7 @@ shimlar is an arpg inspired by path of exile, built with modern web technologies
 - **persistence**: sqlite (dev) / postgresql (prod) with redis sessions
 - **api**: rest api server
 
-## current state (2025-01-24)
+## current state
 
 - **game logic**: 330 passing tests across 24 files validating all mechanics
 - **zone system**: procedural generation with 5 algorithms, safe towns with npcs
@@ -24,15 +24,24 @@ shimlar/
 ├── scripts/         # demo and utility scripts
 ├── packages/
 │   ├── core/        # game mechanics (pure logic)
-│   │   ├── src/     # source code
+│   │   ├── combat/
+│   │   ├── items/
+│   │   ├── zones/
+│   │   ├── character/
+│   │   ├── entities/
+│   │   ├── components/
+│   │   ├── events/
 │   │   └── tests/   # unit tests (co-located)
-│   ├── engine/      # state management & persistence
-│   │   ├── src/
+│   ├── engine/      # state management & persistence  
+│   │   ├── state/
+│   │   ├── persistence/
 │   │   └── tests/
 │   ├── data/        # static game data & affixes
+│   │   ├── affixes/
+│   │   ├── monsters/
 │   │   └── items/   # 11k+ line affix database
 │   └── server/      # rest api server
-│       ├── src/
+│       ├── index.ts
 │       └── tests/
 ```
 
@@ -41,7 +50,7 @@ shimlar/
 **purpose**: pure game logic with zero ui dependencies
 
 ```typescript
-core/src/
+core/
 ├── entities/             # entity system
 │   └── Entity.ts        
 ├── components/           # entity components
@@ -78,7 +87,7 @@ core/src/
 **purpose**: game state management and persistence
 
 ```typescript
-engine/src/
+engine/
 ├── state/
 │   ├── GameState.ts      # state types
 │   └── GameStore.ts      # zustand store
@@ -106,7 +115,7 @@ data/
 **purpose**: rest api for game clients
 
 ```typescript
-server/src/
+server/
 └── index.ts            # bun server with cors
 ```
 
@@ -116,9 +125,6 @@ server/src/
 - `POST /api/players` - create new player
 - `GET /api/players/:id` - get player data
 - `PUT /api/players/:id` - update player data
-- `GET /api/sessions/:id` - get session data
-- `PUT /api/sessions/:id` - update session data
-- `DELETE /api/sessions/:id` - end session
 - `GET /health` - server health check
 
 ## data flow
@@ -162,7 +168,7 @@ Data (static content)
 
 ## testing
 
-- **278 passing tests** across all systems
+- **330 passing tests** across 24 files
 - **comprehensive coverage** for game mechanics
 - **path of exile validation** for loot/item systems
 - **bun test** with --bail flag

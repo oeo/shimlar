@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeAll } from "bun:test";
-import { ItemCategory, getBaseItemTypeByName } from "../../src/items/BaseItemTypes";
-import { AffixType, affixData } from "../../src/items/AffixSystem";
+import { ItemCategory, getBaseItemTypeByName } from '../../items/BaseItemTypes';
+import { AffixType, affixData } from '../../items/AffixSystem';
 import {
   ItemRarity,
   itemGenerator,
@@ -9,7 +9,7 @@ import {
   getItemDisplayName,
   getItemDisplayColor,
   generateItemFromBase
-} from "../../src/items/ItemGeneration";
+} from '../../items/ItemGeneration';
 
 describe("Item Generation", () => {
   beforeAll(async () => {

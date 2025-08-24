@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from "bun:test";
-import { EventBus } from "../../src/events/EventBus";
+import { EventBus } from '../../events/EventBus';
 
 describe("EventBus", () => {
   let eventBus: EventBus;
