@@ -4,8 +4,8 @@
  * script to demonstrate different zone generation types with ascii visualization
  */
 
-import { ZoneGenerator } from '../packages/core/src/zones/ZoneGenerator';
-import { ZoneTemplate } from '../packages/core/src/zones/ZoneTypes';
+import { ZoneGenerator } from '../packages/core/zones/ZoneGenerator';
+import { ZoneTemplate } from '../packages/core/zones/ZoneTypes';
 
 const createTemplate = (generator: string, size: string, name: string): ZoneTemplate => ({
   id: `demo_${generator}_${size}`,
